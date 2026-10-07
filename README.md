@@ -508,12 +508,13 @@ written by the grader.
 
 - **Code: MIT** ([`LICENSE`](LICENSE)). Covers `scripts/`, `tools/`, `tests/`, `config/`, `requirements.txt` and
   `.gitignore`.
-- **Data and prose: CC BY 4.0** ([`LICENSE-CC-BY-4.0.txt`](LICENSE-CC-BY-4.0.txt)). Covers `README.md`, `results/`
-  (including `results/blind/`), `tasks/` and `tasks_hard/`.
+- **Data and prose: CC BY 4.0** ([`LICENSE-CC-BY-4.0.txt`](LICENSE-CC-BY-4.0.txt)). Applies only to original
+  content by Adam Daw (© 2026) in `README.md`, `results/`, `tasks/` and `tasks_hard/`. It does not apply to
+  third-party material contained in those paths, including model- or grader-generated text, GGUF metadata excerpts,
+  or chat-template output; that material keeps its own terms.
 
 Neither licence covers third-party material, which keeps its own terms:
 
 - the model weights, which are linked, not redistributed;
 - llama.cpp, llama-swap and anything in this repo derived from them or from other projects;
-- the Python dependencies (`requirements.txt`) and the Python standard library used as passkey/bench haystack;
-- the model- and grader-generated text and model-derived files listed in [Third-party material](#third-party-material).
+- the Python dependencies (`requirements.txt`) and the Python standard library used as passkey/bench haystack.
