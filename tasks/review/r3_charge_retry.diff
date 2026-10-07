@@ -1,0 +1,45 @@
+--- a/payments/charge.py
++++ b/payments/charge.py
+@@ -1,19 +1,37 @@
+ import asyncio
+ import logging
+ 
++from .errors import TransientGatewayError
++
+ log = logging.getLogger(__name__)
++MAX_ATTEMPTS = 3
+ 
+ 
+ class ChargeService:
+-    def __init__(self, gateway, audit, ledger):
++    """Charges an account via the payment gateway, then audits and books it.
++
++    gateway.charge, audit.record and ledger.debit are all coroutines.
++    """
++
++    def __init__(self, gateway, audit, ledger):
+         self.gateway = gateway
+         self.audit = audit
+         self.ledger = ledger
+ 
+-    async def charge(self, account_id, amount_cents, idempotency_key):
+-        result = await self.gateway.charge(account_id, amount_cents, idempotency_key)
+-        await self.audit.record("charge", account_id, amount_cents, result.id)
+-        await self.ledger.debit(account_id, amount_cents, ref=result.id)
+-        return result
++    async def charge(self, account_id: str, amount_cents: int, idempotency_key: str):
++        if amount_cents <= 0:
++            raise ValueError("amount_cents must be positive")
++        result = None
++        for attempt in range(1, MAX_ATTEMPTS + 1):
++            try:
++                result = await self.gateway.charge(account_id, amount_cents, idempotency_key)
++            except TransientGatewayError as exc:
++                log.warning("charge attempt %d failed: %s", attempt, exc)
++                if attempt == MAX_ATTEMPTS:
++                    raise
++                await asyncio.sleep(0.2 * 2 ** attempt)
++        self.audit.record("charge", account_id, amount_cents, result.id)
++        await self.ledger.debit(account_id, amount_cents, ref=result.id)
++        log.info("charged %s %d (%s)", account_id, amount_cents, result.id)
++        return result

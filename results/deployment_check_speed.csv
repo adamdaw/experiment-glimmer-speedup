@@ -1,0 +1,4 @@
+prompt,prompt_n,pp_tok_s,gen_n,tg_tok_s,draft_accepted,draft_n,finish,error
+review0,493,238.9,1024,30.0,813,1455,length,
+review1,447,228.6,1024,22.97,749,1914,length,
+review2,424,218.7,1024,26.88,789,1632,length,

@@ -1,0 +1,12 @@
+Key points:
+- Decodes a concatenated stream of unsigned LEB128 / protobuf-style base-128 varints: each byte contributes its low 7 bits, little-endian groups (first byte = least significant), high bit (0x80) = continuation. It is a generator: yields one int per varint until the buffer is consumed.
+- signed=True applies ZigZag decoding: (n >> 1) ^ -(n & 1) maps 0,1,2,3,4 -> 0,-1,1,-2,2.
+- Worked example: b"\xac\x02" -> 0x2c | (0x02 << 7) = 44 + 256 = 300. b"\x96\x01" -> 150. Signed: 3 -> -2.
+- Empty input: yields nothing (no error).
+- Truncated (last byte has continuation bit): raises ValueError "truncated varint at offset <start of that varint>" -- but only AFTER yielding all earlier values, since it's a lazy generator (partial consumption / error surfaces late; callers using list() get nothing, callers iterating have already processed earlier values).
+- Over-long: the length check runs only after a continuation byte; with max_bytes=10 a varint may be up to 10 bytes if the 10th terminates; if byte 10 still has the continuation bit -> "varint too long". max_bytes=1 means a one-byte varint is fine but any continuation raises.
+- Max value: no overflow check. 10 bytes * 7 bits = 70 bits, so values up to 2**70 - 1 are returned (Python big ints). Protobuf requires <= 64 bits (10th byte may only be 0x00/0x01); this accepts invalid values > 2**64-1 silently. Signed mode on such values gives out-of-int64-range results.
+- Non-canonical encodings accepted: e.g. b"\x80\x00" decodes to 0 (padding with 0x80 continuation bytes), so different byte strings map to the same value (matters for hashing/signature/dedupe).
+- Note: protobuf's sint uses zigzag but plain int32/int64 negatives are encoded as 10-byte two's complement; this function with signed=False returns a huge positive number (2**64 - k) for those -- caller must convert. 
+- `pos - start >= max_bytes` check placement means the error offset is the varint start; truncated message similarly reports start offset.
+- Bugs/surprises to mention: no 64-bit overflow check; non-canonical accepted; lazy error; negative int32/int64 handling.

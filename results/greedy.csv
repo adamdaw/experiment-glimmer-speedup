@@ -1,0 +1,13 @@
+comparison,config,prompt,error,tg_tok_s,draft_n,draft_accepted,chars,control_chars,identical_to_control,common_prefix_chars
+vs g-a1 run 1,g-a1,0,,7.62313439599027,,,2496,2496,True,2496
+vs g-a1 run 1,g-a1,1,,7.614512001428427,,,1239,1239,True,1239
+vs g-a1 run 1,g-a1,2,,7.612615306395878,,,1007,1007,True,1007
+vs g-a1 run 1,g-df7,0,,28.717606057631837,1046,549,2489,2496,False,2137
+vs g-a1 run 1,g-df7,1,,24.084913527233756,707,294,1461,1239,False,544
+vs g-a1 run 1,g-df7,2,,25.472880138954565,651,291,1020,1007,False,634
+vs g-a1 run 1,g-df3,0,,21.37962768005409,648,483,2489,2496,False,1150
+vs g-a1 run 1,g-df3,1,,18.54061865699001,411,248,1462,1239,False,449
+vs g-a1 run 1,g-df3,2,,20.03620157953477,372,253,984,1007,False,619
+g-a1 run 2 vs g-a1 run 1,g-a1,0,,7.641492816236976,,,2496,2496,True,2496
+g-a1 run 2 vs g-a1 run 1,g-a1,1,,7.629310009085959,,,1239,1239,True,1239
+g-a1 run 2 vs g-a1 run 1,g-a1,2,,7.627625216555531,,,1011,1007,False,619

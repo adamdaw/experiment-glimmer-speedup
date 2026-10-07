@@ -1,0 +1,6 @@
+# Host software versions (2026-09-28/29). Hardware: AMD Strix Halo APU (integrated GPU, gfx1151), 128 GB unified memory.
+os: Fedora 44-based immutable desktop distribution
+kernel: 7.2.4 before the mid-study reboot, 7.2.7 after it (distribution kernel builds)
+vulkan driver (host): mesa-vulkan-drivers 26.2.2-3.fc44 (RADV)
+vulkan driver (container that ran llama-server): mesa-vulkan-drivers 26.2.2-6.fc44 (RADV)
+backend: llama.cpp Vulkan (ROCm not used)

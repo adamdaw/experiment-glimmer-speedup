@@ -1,0 +1,16 @@
+config,case,reasoning_in_prompt
+g-a0,"reasoning, empty content (mid tool chain)",True
+g-a0,reasoning + non-empty content (mid tool chain),True
+g-a0,after a final answer + new user turn,True
+g-a1,"reasoning, empty content (mid tool chain)",True
+g-a1,reasoning + non-empty content (mid tool chain),True
+g-a1,after a final answer + new user turn,True
+g-combo1,"reasoning, empty content (mid tool chain)",True
+g-combo1,reasoning + non-empty content (mid tool chain),True
+g-combo1,after a final answer + new user turn,True
+g-df7,"reasoning, empty content (mid tool chain)",True
+g-df7,reasoning + non-empty content (mid tool chain),True
+g-df7,after a final answer + new user turn,True
+g-q5,"reasoning, empty content (mid tool chain)",True
+g-q5,reasoning + non-empty content (mid tool chain),True
+g-q5,after a final answer + new user turn,True

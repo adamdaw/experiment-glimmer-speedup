@@ -1,0 +1,64 @@
+{
+ "hr1_payout_retry": {
+  "file": "hr1_payout_retry.diff",
+  "context": "Adds retries with backoff to seller payouts and moves amount conversion into a helper.",
+  "planted": [
+   {
+    "id": "idempotency_key_per_attempt",
+    "desc": "The idempotency key now includes the attempt number (f\"{payout.id}:{attempt}\"), so every retry is a NEW request to the provider. If an attempt timed out after the provider executed it, the retry sends the payout again (double payout). The key must stay stable across retries (payout.id).",
+    "match_any": [
+     ["idempoten|:\\{attempt\\}|attempt.{0,40}key|key.{0,60}attempt"],
+     ["double|twice|duplicate|multiple|again|new (key|request)|different key|unique (per|for each)|each (retry|attempt)|every (retry|attempt)|defeat|stable|same key"]
+    ],
+    "match_mode": "all_groups"
+   },
+   {
+    "id": "float_truncation",
+    "desc": "_to_minor uses int(float(amount) * 100): binary floating point plus truncation turns e.g. \"4.35\" into 434 and \"0.29\" into 28, underpaying by a cent. The old code used Decimal; should be Decimal(str) quantized/rounded, not float + int().",
+    "match_any": [
+     ["float|_to_minor|int\\("],
+     ["precision|truncat|round|off.by.one.cent|cent|434|28\\b|decimal|inexact|binary"]
+    ],
+    "match_mode": "all_groups"
+   }
+  ],
+  "acceptable": [
+   "providererror|non.?transient|permanent|4\\d\\d|insufficient|invalid account|retry.{0,40}(all|any) error",
+   "mark_failed|marked failed|status.{0,40}(unknown|failed)|ambiguous|reconcil",
+   "sleep|backoff|jitter|block",
+   "raise last_exc|none",
+   "batch"
+  ]
+ },
+ "hr2_webhook_credit": {
+  "file": "hr2_webhook_credit.diff",
+  "context": "Handles top-up reversals, validates amount/currency, and restructures event de-duplication in the top-up webhook.",
+  "planted": [
+   {
+    "id": "dedupe_not_atomic",
+    "desc": "De-duplication moved out of the transaction: exists() is checked first and events.add() runs only after the balance change commits. Concurrent deliveries of the same event both pass exists() and both apply it, and a crash/error between the commit and events.add() makes the retry apply it again: double credit (or double reversal). The old code inserted the event id (unique index) inside the same transaction as the balance update.",
+    "match_any": [
+     ["race|concurren|atomic|toctou|check.then|outside (the )?transaction|after (the )?(commit|transaction)|not in the same transaction|same transaction|parallel|simultaneous|crash|between"],
+     ["duplicate|dedup|exists|events\\.add|idempot|same event|twice|double|redeliver|retr"]
+    ],
+    "match_mode": "all_groups"
+   },
+   {
+    "id": "failed_topup_credited",
+    "desc": "The type filter changed from == \"topup.succeeded\" to startswith(\"topup.\"), so topup.failed events are no longer ignored; they fall into the else branch and CREDIT the wallet for money that never arrived.",
+    "match_any": [
+     ["topup\\.failed|failed (top.?up|event)|startswith"],
+     ["credit|balance|increase|add|else|money|funds|treated as|succeeded"]
+    ],
+    "match_mode": "all_groups"
+   }
+  ],
+  "acceptable": [
+   "negative|overdraw|below zero|insufficient",
+   "badrequest|4\\d\\d|retry (forever|indefinitely)|poison|keeps retrying|non.?2xx",
+   "keyerror|missing (field|key)|validat|schema",
+   "unknown type|unhandled type|other types",
+   "log"
+  ]
+ }
+}
