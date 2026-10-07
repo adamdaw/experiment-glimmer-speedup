@@ -82,6 +82,9 @@ def test_blind_grades():
     assert [g[c]["cgu_mean"] for c in ("baseline-Q8 (2026-09-28 eval)", "g-df7", "g-combo1")] == [3.82, 3.79, 3.74]
     assert [g[c]["five_axis_mean"] for c in ("baseline-Q8 (2026-09-28 eval)", "g-df7", "g-combo1")] == [3.93, 3.89, 3.85]
     assert [g[c]["false_alarms"] for c in ("baseline-Q8 (2026-09-28 eval)", "g-df7", "g-combo1")] == [2, 1, 3]
+    # both candidates fall below the baseline, i.e. fail the pre-set "not below baseline" clause
+    base = g["baseline-Q8 (2026-09-28 eval)"]["cgu_mean"]
+    assert [round(g[c]["cgu_mean"] - base, 2) for c in ("g-df7", "g-combo1")] == [-0.03, -0.08]
 
 
 def test_deployment_check():

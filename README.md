@@ -5,10 +5,18 @@ holds the method, the harness, the task inputs and the summary results of a stud
 Strix Halo machine. The aim is that someone else can check the result and re-run the study on their own hardware.
 
 **Short answer.** Adding Meta's DFlash drafter as a speculative decoder (`--spec-draft-n-max 7`, llama.cpp
-7ab4ee7ba) to the Q8_0 target raised decode speed by about 2–3.6×. It passed every objective gate. A single blind
-grader scored its review/explore answers level with the baseline: 3.79 for DF7 against 3.82 for the baseline, with
-Q5 + DF7 at 3.74. The DF7 configuration was deployed on 2026-09-29. Read [Limitations](#limitations) before relying
-on the quality side: the grade comes from one grader on 11 tasks.
+7ab4ee7ba) to the Q8_0 target raised decode speed by about 2–3.6×.
+
+- **Automated gates:** it passed all of them: passkey retrieval, tool calls, template rendering and planted-bug
+  recall. On the hard agentic tasks it beat the baseline: it solved `h1` in 2 of 2 runs, but `h2` stayed out of
+  reach.
+- **Blind grade:** its answers scored **3.79 against the baseline's 3.82**. That is **below** the rule set before
+  grading, which said the candidate's mean must not fall below the baseline's. Q5 + DF7 scored 3.74.
+- **The "tie":** the original study judged the grades tied within noise and deployed DF7 on 2026-09-29. That was a
+  **post-hoc judgement**, made after the scores were seen and without a statistical test.
+- **What the data can say:** one grader scored 11 baseline answers and 22 per candidate. At that size the data
+  cannot tell a small quality loss apart from no loss. Whether DF7 preserves quality is **inconclusive**; see
+  [Limitations](#limitations).
 
 ## Contents
 
@@ -28,9 +36,18 @@ on the quality side: the grade comes from one grader on 11 tasks.
 
 **Question:** which configuration of Muse Glimmer 30B is faster than the production Q8 profile, with no quality loss?
 
-**Hypothesis:** speculative decoding should give a large decode speed-up at unchanged quality, because the Q8 target
-verifies every drafted token. A smaller quantisation might also help, but it changes the target weights, so its
-quality has to be measured rather than assumed.
+**Hypothesis (reconstructed).** The source report recorded only the question above. The hypothesis below is
+reconstructed from the study plan that preceded the runs:
+
+- Speculative decoding verified by the Q8 target should preserve quality in principle. Its speed effect on this
+  Vulkan setup was **uncertain**, though:
+  - prompt lookup (ngram) was expected to help mainly on verbatim code quoting, not on original reasoning;
+  - published Strix Halo measurements of the DFlash drafter showed a small gain on short outputs, but a slowdown on
+    an 8K retrieval control.
+- Lower quantisations were expected to speed up roughly in proportion to their smaller file size. Because they
+  change the target weights, their quality had to be measured.
+- **Promotion rule from the plan:** promote only a candidate with a repeatable, useful speed gain and no observed
+  quality regression across the gates.
 
 The starting point was a Q8_0 profile decoding at about 7.6 tok/s. At that speed the model was usable for one-off
 reviews, but too slow for agentic coding inside a 15-minute cap.
@@ -96,8 +113,8 @@ the control and every later candidate changed one variable against the same bina
   - The key, `results/blind/KEY.json`, was kept away from the grader.
 - **Baseline answers:** these came from an eval run the day before (2026-09-28) on the production profile, with the
   harness that `harness_gs.py` was copied from.
-- **Grader:** one grader, an **OpenAI Codex agent**. Its vendor differs from the graded model's (Meta). The grading
-  artefacts do not record the exact Codex model or version.
+- **Grader:** one grader, recorded only as **"Codex"**. The grading artefacts do not record its provider, model or
+  version.
 - **What the grader saw and did:** it had only `packet.md`, and scored each answer 1–5 on correctness,
   groundedness, completeness and concision (the packet's rubric) plus usefulness. It also counted planted bugs
   found, false alarms, and wrong or hallucinated citations. Its output is `results/blind/GRADES.json` and
@@ -137,11 +154,11 @@ Medians are over reps. Speed-ups are ratios of medians against `g-a1`.
 
 | file | download | bytes | sha256 |
 |---|---|---:|---|
-| `Muse-Glimmer-30B-Q8_0.gguf` (target) | [unsloth/Muse-Glimmer-30B-GGUF @ faa5b025c584](https://huggingface.co/unsloth/Muse-Glimmer-30B-GGUF/tree/faa5b025c584459c13febfa5c59883516710ae39) | 29,612,957,984 | `f2c087d694ca8242a4a436076df7c041703ab051ac4b72bb1bfe2698299b0e86` ¹ |
-| `dflash-Muse-Glimmer-30B-Q4_K_M.gguf` (drafter) | [meta-models/Muse-Glimmer-30B-GGUF @ 70bf1b61ac09](https://huggingface.co/meta-models/Muse-Glimmer-30B-GGUF/tree/70bf1b61ac09f91b24d39038091b41c582bc5d7a) | 1,631,208,128 | `b2e808bf656086fe86bd0d0bd990f01d33e377537a07c02d45371517c8b264ef` |
-| `Muse-Glimmer-30B-UD-Q5_K_M.gguf` | unsloth @ faa5b025c584 | 19,194,274,848 | `27c27bc0cc2591344a9ef977d57aa79a9d36ddebee59660bd2abbf738f940f5b` |
-| `Muse-Glimmer-30B-UD-Q6_K_XL.gguf` | unsloth @ faa5b025c584 | 26,265,362,976 | `fb5f80d110c4fa932cc652e70873c0bd12c0954009038aa675e65086104c2739` |
-| `Muse-Glimmer-30B-KQuant-Dynamic-Q4_K_XL.gguf` | meta-models @ 70bf1b61ac09 | 19,653,960,832 | `ac7023d6a4c704eb9af54ab53e476a66b7f5b6c0ef2fc4a8dde5253c291a6c38` |
+| `Muse-Glimmer-30B-Q8_0.gguf` (target) | [unsloth/Muse-Glimmer-30B-GGUF @ faa5b025c584](https://huggingface.co/unsloth/Muse-Glimmer-30B-GGUF/blob/faa5b025c584459c13febfa5c59883516710ae39/Muse-Glimmer-30B-Q8_0.gguf) | 29,612,957,984 | `f2c087d694ca8242a4a436076df7c041703ab051ac4b72bb1bfe2698299b0e86` ¹ |
+| `dflash-Muse-Glimmer-30B-Q4_K_M.gguf` (drafter) | [meta-models/Muse-Glimmer-30B-GGUF @ 70bf1b61ac09](https://huggingface.co/meta-models/Muse-Glimmer-30B-GGUF/blob/70bf1b61ac09f91b24d39038091b41c582bc5d7a/dflash-Muse-Glimmer-30B-Q4_K_M.gguf) | 1,631,208,128 | `b2e808bf656086fe86bd0d0bd990f01d33e377537a07c02d45371517c8b264ef` |
+| `Muse-Glimmer-30B-UD-Q5_K_M.gguf` | [unsloth/Muse-Glimmer-30B-GGUF @ faa5b025c584](https://huggingface.co/unsloth/Muse-Glimmer-30B-GGUF/blob/faa5b025c584459c13febfa5c59883516710ae39/Muse-Glimmer-30B-UD-Q5_K_M.gguf) | 19,194,274,848 | `27c27bc0cc2591344a9ef977d57aa79a9d36ddebee59660bd2abbf738f940f5b` |
+| `Muse-Glimmer-30B-UD-Q6_K_XL.gguf` | [unsloth/Muse-Glimmer-30B-GGUF @ faa5b025c584](https://huggingface.co/unsloth/Muse-Glimmer-30B-GGUF/blob/faa5b025c584459c13febfa5c59883516710ae39/Muse-Glimmer-30B-UD-Q6_K_XL.gguf) | 26,265,362,976 | `fb5f80d110c4fa932cc652e70873c0bd12c0954009038aa675e65086104c2739` |
+| `Muse-Glimmer-30B-KQuant-Dynamic-Q4_K_XL.gguf` | [meta-models/Muse-Glimmer-30B-GGUF @ 70bf1b61ac09](https://huggingface.co/meta-models/Muse-Glimmer-30B-GGUF/blob/70bf1b61ac09f91b24d39038091b41c582bc5d7a/Muse-Glimmer-30B-KQuant-Dynamic-Q4_K_XL.gguf) | 19,653,960,832 | `ac7023d6a4c704eb9af54ab53e476a66b7f5b6c0ef2fc4a8dde5253c291a6c38` |
 
 ¹ The Q8_0 file existed before the study and was not re-hashed during it. Its size matches. The hash prefix and
 suffix recorded with the profile (`f2c087d6…0b86`) match the Hugging Face LFS hash above. Its original download
@@ -153,8 +170,11 @@ pattern as the scalar 4, while Meta's Dynamic Q4 stores it as a 52-entry bool ar
 
 ## Results
 
-Every number below can be recomputed from `results/` with `python3 tools/claims.py`; `tests/test_claims.py`
-pins the headline ones. The numbers match the study's own report.
+The measured numbers below (speed, prefill, acceptance, memory, passkey, tools, greedy, review/explore, agentic,
+blind grades and the deployment check) are recomputed from the committed `results/*.csv` and
+`results/blind/grades_by_config.json` by `python3 tools/claims.py`. `tests/test_claims.py` pins the headline ones.
+They match the study's own report. Environment facts, byte sizes and hashes come from `results/environment/`.
+Dates are stated, not computed.
 
 ### Decode speed: full matrix, tok/s, median (min–max), n = 5 (`results/speed_matrix.csv`)
 
@@ -272,9 +292,12 @@ alarms.
 | Q8 + DF7 | 22 | **3.79** | 3.89 | 20/20 | 1 | 8 |
 | Q5 + DF7 | 22 | **3.74** | 3.85 | 20/20 | 3 | 3 |
 
-C = correctness, G = groundedness, U = usefulness. No hallucinated citations were found in any answer. The
-orchestrator judged the result a tie within noise and promoted Q8 + DF7. Q5 + DF7 was not adopted. Q5 alone was not
-graded.
+C = correctness, G = groundedness, U = usefulness. No hallucinated citations were found in any answer.
+
+- **Against the pre-set rule:** both candidates fall below the baseline mean (3.79 and 3.74 against 3.82), so both
+  fail its first clause as written. Q5 + DF7 also has more false alarms than the baseline (3 against 2).
+- **What happened instead:** the orchestrator judged the result a tie within noise and promoted Q8 + DF7. That was a
+  post-hoc judgement, made without a statistical test. Q5 + DF7 was not adopted. Q5 alone was not graded.
 
 ### Hard agentic tasks at the 900 s cap (`results/agentic_runs.csv`)
 
@@ -312,7 +335,10 @@ These are listed so the result is not over-read. Items marked **inconclusive** a
 1. **The quality evidence is thin.**
    - One grader, one packet, 11 tasks, and 11 or 22 answers per source. There is no second grader and no
      agreement measure.
-   - The "tie" is the orchestrator's judgement. No statistical test was run.
+   - By the rule set before grading, both candidates fail: their means are below the baseline's. The "tie" is the
+     orchestrator's post-hoc judgement, made after the scores were seen. No statistical test was run.
+   - With 11 baseline answers and 22 per candidate from one grader, a gap of 0.03 (DF7) or 0.08 (Q5 + DF7) cannot
+     be told apart from no difference, and neither can a small real loss. Quality preservation is **inconclusive**.
    - The composite (mean of C, G, U) was not documented when it was used; it was reconstructed here.
    - Against the pre-set rule:
      - Q5 + DF7 had more false alarms than the baseline in total (3 against 2, from twice as many answers).

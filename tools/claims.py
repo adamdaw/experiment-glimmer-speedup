@@ -184,8 +184,12 @@ def main():
     for k, v in greedy(R).items():
         print(f"- {k}: {v}")
     print("\n## Blind grades\n")
-    for c, v in grades(R).items():
+    g = grades(R)
+    for c, v in g.items():
         print(f"- {c}: {v}")
+    base = next(v["cgu_mean"] for c, v in g.items() if c.startswith("baseline"))
+    print("- gap to baseline (C,G,U mean): " + ", ".join(f"{c} {v['cgu_mean'] - base:+.2f}" for c, v in g.items()
+                                                          if not c.startswith("baseline")))
     print(f"\n## Deployment check\n\n{deployment(R)}")
 
 
