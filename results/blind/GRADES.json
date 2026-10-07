@@ -1,0 +1,1291 @@
+{
+  "A": {
+    "r1_report_cache": {
+      "correctness": 5,
+      "groundedness": 5,
+      "usefulness": 5,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds missing user_id in cache key and ascending top_n; both fixes are correct.",
+      "hallucinations_or_unsupported_claims": [],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "r2_orders_route": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 4,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds SQL injection and the page offset bug; invalid page validation is a real extra issue.",
+      "hallucinations_or_unsupported_claims": [
+        "Groups page=0 with negative/NaN offsets, although 0 * 20 is 0."
+      ],
+      "omissions": [
+        "The proposed status=$2 fix must also shift LIMIT/OFFSET placeholders; this is not stated."
+      ],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "r3_charge_retry": {
+      "correctness": 5,
+      "groundedness": 5,
+      "usefulness": 5,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds the missing await and success break; accurately distinguishes duplicate gateway calls from guaranteed duplicate charges.",
+      "hallucinations_or_unsupported_claims": [],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e1_retry": {
+      "correctness": 4,
+      "groundedness": 3,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 3,
+      "notes": "Accurate main retry matrix, four attempts, precedence, jitter and Retry-After scope; repeats code and configuration extensively.",
+      "hallucinations_or_unsupported_claims": [
+        "Numeric citations are wrong: HTTPKIT_RETRIES is at config.py:44-45, not :38; header extraction is client.py:61, not :44. Conventional backoff indexing alone does not prove a bug."
+      ],
+      "omissions": [
+        "Does not explain URLError-wrapped timeouts becoming ConnectionError and hence retrying POST, or broad OSError-to-TimeoutError mapping.",
+        "Does not discuss losing custom sleep/rng when constructing the per-call policy."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e2_log": {
+      "correctness": 4,
+      "groundedness": 3,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 3,
+      "notes": "Correct deploy -> gift-card error-path connection leak -> exhaustion -> 503s -> restart diagnosis, with real timestamps and useful rollback/release recommendations.",
+      "hallucinations_or_unsupported_claims": [
+        "Asserts GC pauses and Redis slow GETs are secondary pressure from queuing/backlog. The logs establish no such causal link; these are unrelated noise in the reference scenario."
+      ],
+      "omissions": [
+        "Does not cite the renewed post-restart rise from active=3 to 6 to 7 as evidence that recovery is temporary.",
+        "Restart is not clearly distinguished as only temporary; the extra log-format investigation is speculative."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e3_varint": {
+      "correctness": 3,
+      "groundedness": 2,
+      "usefulness": 3,
+      "completeness": 4,
+      "concision": 3,
+      "notes": "Core varint mechanics, worked example and 70-bit/signed range are correct.",
+      "hallucinations_or_unsupported_claims": [
+        "Claims protobuf parsers reject all non-minimal encodings; this blanket restriction is false. Calls FF 01 a non-canonical example although it is the minimal encoding of 255. Says any extra zero-payload continuation bytes change the value, contradicting its own zero-padding example. Initially conflates all protobuf signed ints with ZigZag. Calling the byte limit one byte early is misleading: byte 10 with continuation already proves the limit is exceeded."
+      ],
+      "omissions": [
+        "Does not explain lazy exceptions after previously yielded values.",
+        "Does not clearly explain ordinary protobuf int32/int64 negative two's-complement values versus sint ZigZag."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e4_design": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 3,
+      "completeness": 3,
+      "concision": 3,
+      "notes": "Good atomic-claim SQL, heartbeat/reclaim, index and retention proposals; approximately 342 whitespace words exceed the requested ~300.",
+      "hallucinations_or_unsupported_claims": [
+        "Retry fix increments attempts on failure as well as on claim, double-counting failed executions."
+      ],
+      "omissions": [
+        "Misses external side-effect success followed by crash before done, and the need for handler idempotency.",
+        "Does not discuss stale updated_at, metrics or committing the claim before the handler."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "hr1_payout_retry": {
+      "correctness": 3,
+      "groundedness": 3,
+      "usefulness": 4,
+      "completeness": 5,
+      "concision": 4,
+      "notes": "Finds both the changing-idempotency-key and float-conversion bugs; the proposed stable key and Decimal fixes are sound.",
+      "hallucinations_or_unsupported_claims": [
+        "Incorrect numerical example: int(float(\"129.99\") * 100) is 12999, not 12998; use \"4.35\" -> 434 or \"0.29\" -> 28.",
+        "Assumes ProviderError includes permanent validation/business errors; the provider implementation/error hierarchy is not shown."
+      ],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 1,
+      "false_alarm_details": [
+        "Definite claim that ProviderError includes non-transient errors requiring a different retry policy is unsupported by shown sources."
+      ],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "hr2_webhook_credit": {
+      "correctness": 5,
+      "groundedness": 5,
+      "usefulness": 4,
+      "completeness": 5,
+      "concision": 3,
+      "notes": "Finds both bugs with correct atomic insertion and explicit event-type fixes. Item 3 repeats the crash window already included in item 1; counts as two planted bugs, not three.",
+      "hallucinations_or_unsupported_claims": [],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "he1_cancel": {
+      "correctness": 3,
+      "groundedness": 1,
+      "usefulness": 3,
+      "completeness": 4,
+      "concision": 2,
+      "notes": "Detailed and mostly correctly cited flow; catches full-quantity restock, reservation omission and mutation-before-payment risk. Two final bug claims contradict the shown guards.",
+      "hallucinations_or_unsupported_claims": [
+        "Claims SHIPPED orders still restock/notify, then acknowledges the earlier conflict blocks this. Claims no guard against double partial cancellation, then cites the guard that rejects it."
+      ],
+      "omissions": [
+        "Does not fully discuss payment-before-save retry/idempotency risk and notification failure after save.",
+        "Does not flag reason=null slicing failure; several normal behaviors are listed as risks."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": 0,
+      "wrong_citations": 2,
+      "citation_issues": [
+        {
+          "type": "wrong",
+          "claim": "Shipping paragraph alleges restocking/notifying an already SHIPPED order; refund condition does not support this and orders.py:25-26 blocks it.",
+          "citation": "shop/refund_calc.py:25"
+        },
+        {
+          "type": "wrong",
+          "claim": "No guard against double cancellation after partial cancel.",
+          "citation": "shop/orders.py:23"
+        }
+      ]
+    },
+    "he2_timeouts": {
+      "correctness": 4,
+      "groundedness": 3,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 4,
+      "notes": "Identifies all eight U groups and all six S groups with correct classifications, but misses one operation and mislabels a call site.",
+      "hallucinations_or_unsupported_claims": [
+        "Labels sync.py:15 as list_issues connect; that line calls fetch_all(mirrors,...), while list_issues is called at sync.py:13."
+      ],
+      "omissions": [
+        "Does not explicitly explain Redis sendall/recv inheriting the 1.5-second socket timeout.",
+        "Does not distinguish socket-operation inactivity bounds from total wall-clock deadlines.",
+        "Omits post_metrics writer.drain() at fetch.py:42.",
+        "Does not give the numeric 5-second httpx default."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": 0,
+      "wrong_citations": 1,
+      "citation_issues": [
+        {
+          "type": "wrong",
+          "claim": "list_issues connect call site is assigned to the mirrors fetch call.",
+          "citation": "svc/workers/sync.py:15"
+        }
+      ],
+      "unbounded_groups_found": 8,
+      "unbounded_groups_total": 8,
+      "unbounded_groups_found_ids": [
+        "U1",
+        "U2",
+        "U3",
+        "U4",
+        "U5",
+        "U6",
+        "U7",
+        "U8"
+      ],
+      "bounded_groups_identified": 6,
+      "bounded_groups_total": 6
+    }
+  },
+  "B": {
+    "r1_report_cache": {
+      "correctness": 5,
+      "groundedness": 5,
+      "usefulness": 5,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds missing user_id in cache key and ascending top_n; both fixes are correct. Unbounded cache retention is a valid additional finding, not a false alarm; top_n severity is overstated.",
+      "hallucinations_or_unsupported_claims": [],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "r2_orders_route": {
+      "correctness": 3,
+      "groundedness": 3,
+      "usefulness": 4,
+      "completeness": 5,
+      "concision": 4,
+      "notes": "Finds both planted bugs and correctly shifts SQL placeholders.",
+      "hallucinations_or_unsupported_claims": [
+        "Says page=0 returns the second page; actual offset is 0, returning the first page. Zero does not yield a negative/NaN offset. Math.max(1, parseInt(...)) does not fix NaN."
+      ],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "r3_charge_retry": {
+      "correctness": 4,
+      "groundedness": 5,
+      "usefulness": 4,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds both bugs and later-failure risk; break is the correct fix.",
+      "hallucinations_or_unsupported_claims": [
+        "Alternative suggestion to return immediately after gateway success would skip the required audit and ledger calls."
+      ],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e1_retry": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 3,
+      "notes": "Accurate main behavior and both genuine README mismatches.",
+      "hallucinations_or_unsupported_claims": [
+        "Treats README example backoff_base=1.0 versus default 0.5 as a disagreement; an override example need not equal defaults. Calls first delay twice the documented base, although the README does not specify that first-delay contract."
+      ],
+      "omissions": [
+        "Does not explain URLError-wrapped timeouts becoming ConnectionError and hence retrying POST, or broad OSError-to-TimeoutError mapping.",
+        "Does not discuss losing custom sleep/rng when constructing the per-call policy."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e2_log": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 3,
+      "notes": "Correct root cause, timeline and rollback/release fix; long but useful evidence.",
+      "hallucinations_or_unsupported_claims": [
+        "Calls one observed liveness-triggered restart a crash loop; repeated crashes are not shown. Says all listed noise occurs before and after, although the payment-config line appears only at the end."
+      ],
+      "omissions": [
+        "Does not cite the renewed post-restart rise from active=3 to 6 to 7 as evidence that recovery is temporary.",
+        "Does not include the final gateway alert or explicitly explain recurrence after restart."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e3_varint": {
+      "correctness": 3,
+      "groundedness": 3,
+      "usefulness": 3,
+      "completeness": 4,
+      "concision": 3,
+      "notes": "Accurate decoder mechanics, byte-limit placement and range; correctly identifies sint ZigZag.",
+      "hallucinations_or_unsupported_claims": [
+        "Claims protobuf universally requires minimal encoding and strict parsers must reject padding. No such universal compatibility rule is established."
+      ],
+      "omissions": [
+        "Does not explain lazy exceptions after previously yielded values.",
+        "Does not clearly explain ordinary protobuf int32/int64 negative two's-complement values versus sint ZigZag."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e4_design": {
+      "correctness": 3,
+      "groundedness": 3,
+      "usefulness": 3,
+      "completeness": 3,
+      "concision": 4,
+      "notes": "Covers claim race, recovery, index/archive and retry limits in about 286 words.",
+      "hallucinations_or_unsupported_claims": [
+        "Says attempts=attempts+1 is non-atomic / a lost-update problem. The SQL increment is atomic; the separate claim is what is unsafe. Predicts thousands of queued retries without workload evidence."
+      ],
+      "omissions": [
+        "Mentions already-succeeded jobs being replayed but gives no idempotency fix or complete external-side-effect crash explanation.",
+        "No observability or updated_at maintenance analysis."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "hr1_payout_retry": {
+      "correctness": 4,
+      "groundedness": 3,
+      "usefulness": 4,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds both the changing-idempotency-key and float-conversion bugs; the proposed stable key and Decimal fixes are sound.",
+      "hallucinations_or_unsupported_claims": [
+        "Incorrect numerical example: int(float(\"129.99\") * 100) is 12999, not 12998; use \"4.35\" -> 434 or \"0.29\" -> 28."
+      ],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "hr2_webhook_credit": {
+      "correctness": 3,
+      "groundedness": 3,
+      "usefulness": 3,
+      "completeness": 5,
+      "concision": 2,
+      "notes": "Finds both planted bugs, but repeats deduplication and adds unsupported business/contract findings.",
+      "hallucinations_or_unsupported_claims": [
+        "Claims a unique violation means no event-id record exists and a later retry reapplies; a duplicate-key conflict means the competing delivery already recorded that id. A general DB failure/crash still creates the real missing-marker window. Negative reversal balances are not prohibited by any shown business rule. Exact-string-dependent callers are not shown."
+      ],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 2,
+      "false_alarm_details": [
+        "Negative balance on reversal is reported as a security defect without a nonnegative-balance contract.",
+        "Claims caller breakage from credited -> applied without any shown callers/compatibility requirement."
+      ],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "he1_cancel": {
+      "correctness": 4,
+      "groundedness": 3,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 2,
+      "notes": "Accurate full flow and main inventory defect. Refund rounding interpretation is reversed/ambiguous; lists benign separate status checks as risks.",
+      "hallucinations_or_unsupported_claims": [
+        "Describes floor coupon share as potentially under-refunding coupon. Flooring the amount subtracted increases net refund; it does not under-refund the customer."
+      ],
+      "omissions": [
+        "Does not fully discuss payment-before-save retry/idempotency risk and notification failure after save.",
+        "Does not flag reason=null slicing failure; several normal behaviors are listed as risks."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": 0,
+      "wrong_citations": 1,
+      "citation_issues": [
+        {
+          "type": "wrong",
+          "claim": "Coupon floor division described as under-refunding instead of reducing the discount deduction.",
+          "citation": "shop/refund_calc.py:22"
+        }
+      ]
+    },
+    "he2_timeouts": {
+      "correctness": 4,
+      "groundedness": 3,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 4,
+      "notes": "Correct U1-U8 and S1-S6 classification and timeout origins; drain behavior is correct but cited to the wrong line.",
+      "hallucinations_or_unsupported_claims": [],
+      "omissions": [
+        "Does not explicitly explain Redis sendall/recv inheriting the 1.5-second socket timeout.",
+        "Does not distinguish socket-operation inactivity bounds from total wall-clock deadlines.",
+        "Does not explicitly list SMTP recv at fetch.py:17 or numeric 5-second httpx default."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": 0,
+      "wrong_citations": 1,
+      "citation_issues": [
+        {
+          "type": "wrong",
+          "claim": "The paragraph also claims writer.drain is unbounded, but its only fetch citation is open_connection; drain is at :42.",
+          "citation": "svc/workers/fetch.py:40"
+        }
+      ],
+      "unbounded_groups_found": 8,
+      "unbounded_groups_total": 8,
+      "unbounded_groups_found_ids": [
+        "U1",
+        "U2",
+        "U3",
+        "U4",
+        "U5",
+        "U6",
+        "U7",
+        "U8"
+      ],
+      "bounded_groups_identified": 6,
+      "bounded_groups_total": 6
+    }
+  },
+  "C": {
+    "r1_report_cache": {
+      "correctness": 5,
+      "groundedness": 5,
+      "usefulness": 5,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds missing user_id in cache key and ascending top_n; both fixes are correct.",
+      "hallucinations_or_unsupported_claims": [],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "r2_orders_route": {
+      "correctness": 5,
+      "groundedness": 5,
+      "usefulness": 5,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds both bugs with parameter renumbering, correct offset and positive-integer validation.",
+      "hallucinations_or_unsupported_claims": [],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "r3_charge_retry": {
+      "correctness": 4,
+      "groundedness": 5,
+      "usefulness": 4,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds both bugs with usable break/await fixes.",
+      "hallucinations_or_unsupported_claims": [
+        "Alternative direct return after the gateway call skips audit and ledger. A later transient error is re-raised only on the final attempt, not every later failure."
+      ],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e1_retry": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 3,
+      "notes": "Covers the retry matrix, attempts, config and header behavior; substantial repetition.",
+      "hallucinations_or_unsupported_claims": [
+        "Calling conventional exponent indexing a definite bug is unsupported. Says 503 is never passed to wait: actually wait is invoked on eligible 503 responses, without its Retry-After header."
+      ],
+      "omissions": [
+        "Does not explain URLError-wrapped timeouts becoming ConnectionError and hence retrying POST, or broad OSError-to-TimeoutError mapping.",
+        "Does not discuss losing custom sleep/rng when constructing the per-call policy."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e2_log": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 3,
+      "notes": "Correct likely root cause, relevant evidence, mitigation and tests; recognizes recurrence.",
+      "hallucinations_or_unsupported_claims": [
+        "Says pool active rises monotonically, but it drops 5->4 at 14:02:42 and 17->15 at 14:05:51. Broadens the leak to error / normal path without evidence of a normal-path leak."
+      ],
+      "omissions": [
+        "Does not cite the renewed post-restart rise from active=3 to 6 to 7 as evidence that recovery is temporary."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e3_varint": {
+      "correctness": 3,
+      "groundedness": 2,
+      "usefulness": 3,
+      "completeness": 4,
+      "concision": 3,
+      "notes": "Correct arithmetic example and exact 70-bit and ZigZag limits.",
+      "hallucinations_or_unsupported_claims": [
+        "Says strict parsing must reject leading 0x80: 80 01 is a valid minimal encoding of 128. Claims protobuf universally requires shortest form. Conflates overflow with non-canonical encoding; a minimally encoded value can exceed 64 bits. Says an 11th continuation is rejected, but the error occurs upon the 10th continuation."
+      ],
+      "omissions": [
+        "Does not explain lazy exceptions after previously yielded values.",
+        "Does not clearly explain ordinary protobuf int32/int64 negative two's-complement values versus sint ZigZag."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e4_design": {
+      "correctness": 4,
+      "groundedness": 3,
+      "usefulness": 3,
+      "completeness": 3,
+      "concision": 4,
+      "notes": "Covers atomic claim, heartbeat, index, retention, retry cap and metrics in about 319 words.",
+      "hallucinations_or_unsupported_claims": [
+        "Calls retained done rows dead tuples; retained rows are live tuples. Uses peak 200 jobs/s as a sustained growth premise; >17M/month is an imprecise lower bound, not a supported monthly forecast."
+      ],
+      "omissions": [
+        "Misses external API side-effect crash window and idempotent handlers.",
+        "No updated_at maintenance or short-transaction discussion."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "hr1_payout_retry": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 5,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds both bugs and supplies a correct 0.29 -> 28 example and Decimal solution; conditional retry-policy note is not counted as a separate defect.",
+      "hallucinations_or_unsupported_claims": [
+        "Under/over-payment wording is broader than demonstrated; positive two-decimal cent values illustrate underpayment. Permanent ProviderError semantics are unknown; the note is qualified as conditional advice."
+      ],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "hr2_webhook_credit": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 4,
+      "completeness": 5,
+      "concision": 3,
+      "notes": "Finds both bugs; item 3 duplicates deduplication, and item 4 assumes unseen callers.",
+      "hallucinations_or_unsupported_claims": [
+        "A unique-constraint conflict from a race implies an event marker exists, so it does not itself cause a subsequent replay. Claims exact-string-dependent callers break without showing them."
+      ],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 1,
+      "false_alarm_details": [
+        "Reports definite caller breakage from the return-string change without a shown contract."
+      ],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "he1_cancel": {
+      "correctness": 3,
+      "groundedness": 2,
+      "usefulness": 3,
+      "completeness": 4,
+      "concision": 2,
+      "notes": "Accurate full trace and inventory bug; lengthy restatement with speculative/benign risk items.",
+      "hallucinations_or_unsupported_claims": [
+        "Says remainder discount cents are never refunded/can accumulate; flooring coupon_share instead makes net refund slightly larger. A separate notification summary cites mail/template lines for the warehouse publish claim."
+      ],
+      "omissions": [
+        "Does not fully discuss payment-before-save retry/idempotency risk and notification failure after save.",
+        "Does not flag reason=null slicing failure; several normal behaviors are listed as risks."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": 0,
+      "wrong_citations": 2,
+      "citation_issues": [
+        {
+          "type": "wrong",
+          "claim": "Discount floor division said to lose refund cents.",
+          "citation": "shop/refund_calc.py:22"
+        },
+        {
+          "type": "wrong",
+          "claim": "Summary claims cancel_pick publication using lines that only select/send the email template; warehouse publish is at :8-10.",
+          "citation": "shop/notify.py:12-14"
+        }
+      ]
+    },
+    "he2_timeouts": {
+      "correctness": 5,
+      "groundedness": 5,
+      "usefulness": 5,
+      "completeness": 4,
+      "concision": 4,
+      "notes": "Strongest timeout answer: all U/S groups, SMTP recv, archive iter_content, drain at its actual line and the numeric httpx default are covered; no bad citations.",
+      "hallucinations_or_unsupported_claims": [],
+      "omissions": [
+        "Does not explicitly explain Redis sendall/recv inheriting the 1.5-second socket timeout.",
+        "Does not distinguish socket-operation inactivity bounds from total wall-clock deadlines."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": 0,
+      "wrong_citations": 0,
+      "citation_issues": [],
+      "unbounded_groups_found": 8,
+      "unbounded_groups_total": 8,
+      "unbounded_groups_found_ids": [
+        "U1",
+        "U2",
+        "U3",
+        "U4",
+        "U5",
+        "U6",
+        "U7",
+        "U8"
+      ],
+      "bounded_groups_identified": 6,
+      "bounded_groups_total": 6
+    }
+  },
+  "D": {
+    "r1_report_cache": {
+      "correctness": 5,
+      "groundedness": 5,
+      "usefulness": 5,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds missing user_id in cache key and ascending top_n; both fixes are correct.",
+      "hallucinations_or_unsupported_claims": [],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "r2_orders_route": {
+      "correctness": 4,
+      "groundedness": 3,
+      "usefulness": 3,
+      "completeness": 5,
+      "concision": 4,
+      "notes": "Finds both bugs and the genuine input-validation gap. Response shape/projection changes are observable, but client breakage is not established.",
+      "hallucinations_or_unsupported_claims": [
+        "Claims zero produces a negative/NaN offset. Claims existing clients will break without any shown clients or compatibility contract."
+      ],
+      "omissions": [
+        "Status placeholder fix omits renumbering LIMIT/OFFSET; Math.max does not handle NaN."
+      ],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 1,
+      "false_alarm_details": [
+        "Reports definite client breakage from the response change without a shown compatibility requirement; a conditional compatibility question would be appropriate."
+      ],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "r3_charge_retry": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 4,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds both bugs and provides correct fixes.",
+      "hallucinations_or_unsupported_claims": [
+        "Says the loop can mask a later transient failure; the important failure mode is a final retry error turning an earlier success into an exception."
+      ],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e1_retry": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 3,
+      "notes": "Main behavior and the two documentation mismatches are correct; repeats the same findings in several sections.",
+      "hallucinations_or_unsupported_claims": [
+        "Labels the exponent an off-by-one defect based only on typical practice, without an expected schedule."
+      ],
+      "omissions": [
+        "Does not explain URLError-wrapped timeouts becoming ConnectionError and hence retrying POST, or broad OSError-to-TimeoutError mapping.",
+        "Does not discuss losing custom sleep/rng when constructing the per-call policy."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e2_log": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 3,
+      "notes": "Correct connection leak diagnosis and rollback recommendation, with accurate quoted log events.",
+      "hallucinations_or_unsupported_claims": [
+        "Claims GC pauses are normal for the heap size; heap occupancy 71% does not establish heap size or normal GC latency. Calls the restart a crash, which is not shown."
+      ],
+      "omissions": [
+        "Does not cite the renewed post-restart rise from active=3 to 6 to 7 as evidence that recovery is temporary.",
+        "Does not clearly explain that restarting without fixing the leak only buys time."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e3_varint": {
+      "correctness": 2,
+      "groundedness": 2,
+      "usefulness": 2,
+      "completeness": 3,
+      "concision": 3,
+      "notes": "Recognizes basic encoding and correct numeric limits, but multiple decoding examples and pseudocode are wrong.",
+      "hallucinations_or_unsupported_claims": [
+        "Claims 81 00 decodes to 0; it decodes to 1. Treats 01 80 01 as one non-minimal value; the stream yields 1 and 128. Pseudocode yields before ZigZag, unlike the source. Presents ZigZag encoding direction as decoding. Blanket canonical-minimal protobuf requirement is false."
+      ],
+      "omissions": [
+        "Does not explain lazy exceptions after previously yielded values.",
+        "Does not clearly explain ordinary protobuf int32/int64 negative two's-complement values versus sint ZigZag."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e4_design": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 4,
+      "notes": "Most useful design critique: claim race, external side-effect duplication/idempotency, bounded retries, index and retention in about 297 words.",
+      "hallucinations_or_unsupported_claims": [
+        "Describes attempts increment as occurring on exception; the proposal increments on claim."
+      ],
+      "omissions": [
+        "Automatic fixed-age reclaim has no heartbeat/fencing, risking duplicate execution of a still-running worker.",
+        "Does not call out stale updated_at or metrics; no explicit commit-before-handler guidance."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "hr1_payout_retry": {
+      "correctness": 4,
+      "groundedness": 3,
+      "usefulness": 4,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds both the changing-idempotency-key and float-conversion bugs; the proposed stable key and Decimal fixes are sound.",
+      "hallucinations_or_unsupported_claims": [
+        "Incorrect numerical example: int(float(\"129.99\") * 100) is 12999, not 12998; use \"4.35\" -> 434 or \"0.29\" -> 28."
+      ],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "hr2_webhook_credit": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 4,
+      "completeness": 5,
+      "concision": 3,
+      "notes": "Finds both bugs and valid fixes; repeats the same non-atomic-recording issue.",
+      "hallucinations_or_unsupported_claims": [
+        "Conflates add failure/race with a missing marker: a unique conflict from a race implies a marker exists. Independent insert failure/crash remains a real replay window."
+      ],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "he1_cancel": {
+      "correctness": 2,
+      "groundedness": 1,
+      "usefulness": 2,
+      "completeness": 4,
+      "concision": 2,
+      "notes": "Main trace is correct, but the risk section invents several defects directly contradicted by its citations.",
+      "hallucinations_or_unsupported_claims": [
+        "Claims coupon rounding under-refunds; flooring the discount deduction increases refund. Claims shipping can be refunded for partially shipped lines despite all(shipped_qty==0). Calls Enum identity comparison fragile; normal Python Enum members are singletons. Says refund is issued without payment_id despite the explicit guard. States reserved stock definitely remains, although reservation lifecycle is not shown."
+      ],
+      "omissions": [
+        "Does not fully discuss payment-before-save retry/idempotency risk and notification failure after save.",
+        "Does not flag reason=null slicing failure; several normal behaviors are listed as risks."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": 0,
+      "wrong_citations": 4,
+      "citation_issues": [
+        {
+          "type": "wrong",
+          "claim": "Coupon floor causes under-refund.",
+          "citation": "shop/refund_calc.py:22"
+        },
+        {
+          "type": "wrong",
+          "claim": "Shipping refund while a line is partially shipped.",
+          "citation": "shop/refund_calc.py:25"
+        },
+        {
+          "type": "wrong",
+          "claim": "Enum is comparison claimed as a defect.",
+          "citation": "shop/orders.py:25"
+        },
+        {
+          "type": "wrong",
+          "claim": "Payment refund issued with no payment_id.",
+          "citation": "shop/orders.py:33"
+        }
+      ]
+    },
+    "he2_timeouts": {
+      "correctness": 4,
+      "groundedness": 3,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 3,
+      "notes": "Correct U/S classifications, but confuses omitted timeouts and explicit None and misses drain.",
+      "hallucinations_or_unsupported_claims": [
+        "Invents socket.create_connection(host,port,timeout=None) as the relevant default/signature and says explicit None uses getdefaulttimeout. The shown call passes an address tuple; omitted timeout uses the global default, whereas explicit None means blocking. Describes urllib explicit None as a library-default fallback rather than explicitly disabling timeout."
+      ],
+      "omissions": [
+        "Does not explicitly explain Redis sendall/recv inheriting the 1.5-second socket timeout.",
+        "Does not distinguish socket-operation inactivity bounds from total wall-clock deadlines.",
+        "Omits post_metrics drain at fetch.py:42 and numeric httpx default."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": 0,
+      "wrong_citations": 1,
+      "citation_issues": [
+        {
+          "type": "wrong",
+          "claim": "Cited omitted-timeout call does not support invented signature or explicit-None/global-default equivalence.",
+          "citation": "svc/workers/fetch.py:15"
+        }
+      ],
+      "unbounded_groups_found": 8,
+      "unbounded_groups_total": 8,
+      "unbounded_groups_found_ids": [
+        "U1",
+        "U2",
+        "U3",
+        "U4",
+        "U5",
+        "U6",
+        "U7",
+        "U8"
+      ],
+      "bounded_groups_identified": 6,
+      "bounded_groups_total": 6
+    }
+  },
+  "E": {
+    "r1_report_cache": {
+      "correctness": 5,
+      "groundedness": 5,
+      "usefulness": 5,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds missing user_id in cache key and ascending top_n; both fixes are correct.",
+      "hallucinations_or_unsupported_claims": [],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "r2_orders_route": {
+      "correctness": 5,
+      "groundedness": 5,
+      "usefulness": 5,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds both planted bugs; concrete injection example, placeholder adjustment and input validation are sound.",
+      "hallucinations_or_unsupported_claims": [],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "r3_charge_retry": {
+      "correctness": 3,
+      "groundedness": 3,
+      "usefulness": 3,
+      "completeness": 5,
+      "concision": 4,
+      "notes": "Finds both planted bugs, but adds an unjustified backoff defect.",
+      "hallucinations_or_unsupported_claims": [
+        "Calls the 0.4s/0.8s schedule an off-by-one bug merely because another convention exists; no required schedule is supplied. Returning early after gateway success would skip audit/ledger."
+      ],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 1,
+      "false_alarm_details": [
+        "Backoff exponent off-by-one is not an established defect."
+      ],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e1_retry": {
+      "correctness": 3,
+      "groundedness": 3,
+      "usefulness": 3,
+      "completeness": 4,
+      "concision": 3,
+      "notes": "Main retry behavior is correct, but the extra configuration restriction is fabricated.",
+      "hallucinations_or_unsupported_claims": [
+        "Claims retry_on_status cannot be overridden with a non-tuple without constructing proper RetrySettings. Dataclass annotations are not runtime enforcement: a list works with membership checks and this override constructor. Conventional backoff indexing is not by itself a bug."
+      ],
+      "omissions": [
+        "Does not explain URLError-wrapped timeouts becoming ConnectionError and hence retrying POST, or broad OSError-to-TimeoutError mapping.",
+        "Does not discuss losing custom sleep/rng when constructing the per-call policy."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e2_log": {
+      "correctness": 4,
+      "groundedness": 3,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 3,
+      "notes": "Correct root cause and explicitly temporary restart mitigation; sound release/test recommendations.",
+      "hallucinations_or_unsupported_claims": [
+        "Asserts GC/Redis delays are load-induced secondary effects without evidence. Says active count is monotonic despite observed decreases. Restart alone does not prove the precise code-path cause, although the combined leak warnings strongly support it."
+      ],
+      "omissions": [
+        "Does not cite the renewed post-restart rise from active=3 to 6 to 7 as evidence that recovery is temporary."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e3_varint": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 4,
+      "notes": "Best varint answer: accurate examples, permissiveness and exact unsigned range.",
+      "hallucinations_or_unsupported_claims": [
+        "Suggests max_bytes=5/10 plus rejecting non-canonical forms suffices for 32/64-bit compatibility; those limits still allow 35/70 bits and need explicit overflow checks. Negative ordinary int32 values may occupy 10 bytes."
+      ],
+      "omissions": [
+        "Does not explain lazy exceptions after previously yielded values.",
+        "Does not clearly explain ordinary protobuf int32/int64 negative two's-complement values versus sint ZigZag."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "e4_design": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 3,
+      "completeness": 3,
+      "concision": 4,
+      "notes": "Good atomic claim, heartbeat, retention/index and retry-limit coverage in about 313 words.",
+      "hallucinations_or_unsupported_claims": [
+        "Predicts autovacuum falling behind at the stated peak as certain, without measured capacity."
+      ],
+      "omissions": [
+        "Misses external side-effect crash window and idempotency; no jitter/cap in suggested backoff.",
+        "Does not explicitly identify updated_at maintenance for completion or add observability."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "hr1_payout_retry": {
+      "correctness": 4,
+      "groundedness": 3,
+      "usefulness": 4,
+      "completeness": 5,
+      "concision": 5,
+      "notes": "Finds both the changing-idempotency-key and float-conversion bugs; the proposed stable key and Decimal fixes are sound.",
+      "hallucinations_or_unsupported_claims": [
+        "Incorrect numerical example: int(float(\"129.99\") * 100) is 12999, not 12998; use \"4.35\" -> 434 or \"0.29\" -> 28."
+      ],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "hr2_webhook_credit": {
+      "correctness": 4,
+      "groundedness": 4,
+      "usefulness": 4,
+      "completeness": 5,
+      "concision": 3,
+      "notes": "Finds both bugs and gives correct fixes; item 3 repeats item 1.",
+      "hallucinations_or_unsupported_claims": [
+        "Says an insert failure due to a race leaves no idempotency record and allows replay; for a unique-key conflict the competing marker exists. A general DB error can still create the stated window."
+      ],
+      "omissions": [],
+      "planted_bugs_found": 2,
+      "planted_bugs_total": 2,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": null,
+      "wrong_citations": null,
+      "citation_issues": []
+    },
+    "he1_cancel": {
+      "correctness": 3,
+      "groundedness": 3,
+      "usefulness": 3,
+      "completeness": 4,
+      "concision": 2,
+      "notes": "Main trace and over-restock finding are correct; mutation-before-payment risk is identified. Repeats inventory defect and treats intended behavior as risk.",
+      "hallucinations_or_unsupported_claims": [
+        "Explicitly says floor coupon share potentially under-refunds the customer; it reduces discount deduction and therefore increases net refund. Claims reserved stock is never released without showing its broader lifecycle."
+      ],
+      "omissions": [
+        "Does not fully discuss payment-before-save retry/idempotency risk and notification failure after save.",
+        "Does not flag reason=null slicing failure; several normal behaviors are listed as risks."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": null,
+      "false_alarm_details": [],
+      "hallucinated_citations": 0,
+      "wrong_citations": 1,
+      "citation_issues": [
+        {
+          "type": "wrong",
+          "claim": "Floor coupon share under-refunds customer.",
+          "citation": "shop/refund_calc.py:22"
+        }
+      ]
+    },
+    "he2_timeouts": {
+      "correctness": 4,
+      "groundedness": 3,
+      "usefulness": 4,
+      "completeness": 4,
+      "concision": 4,
+      "notes": "Correct U/S classifications, config trace and numeric httpx default; drain is described but cited only to connect.",
+      "hallucinations_or_unsupported_claims": [],
+      "omissions": [
+        "Does not explicitly explain Redis sendall/recv inheriting the 1.5-second socket timeout.",
+        "Does not distinguish socket-operation inactivity bounds from total wall-clock deadlines.",
+        "Does not explicitly list SMTP recv at fetch.py:17."
+      ],
+      "planted_bugs_found": null,
+      "planted_bugs_total": null,
+      "false_alarms": 0,
+      "false_alarm_details": [],
+      "hallucinated_citations": 0,
+      "wrong_citations": 1,
+      "citation_issues": [
+        {
+          "type": "wrong",
+          "claim": "writer.drain claim has only the :40 connection citation; drain is at :42.",
+          "citation": "svc/workers/fetch.py:40"
+        }
+      ],
+      "unbounded_groups_found": 8,
+      "unbounded_groups_total": 8,
+      "unbounded_groups_found_ids": [
+        "U1",
+        "U2",
+        "U3",
+        "U4",
+        "U5",
+        "U6",
+        "U7",
+        "U8"
+      ],
+      "bounded_groups_identified": 6,
+      "bounded_groups_total": 6
+    }
+  }
+}

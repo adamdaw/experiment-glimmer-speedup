@@ -1,0 +1,10 @@
+Key facts a strong answer should contain (grounded in the code):
+- Flow: HttpClient.request loops; transport raises ConnectionError/TimeoutError or returns Response; RetryPolicy.should_retry decides; RetryPolicy.wait sleeps delay().
+- What is retried: ConnectionError always (any method, incl. POST); TimeoutError only for idempotent methods (GET/HEAD/OPTIONS/PUT/DELETE); HTTP 429 for ANY method (incl. POST); 502/503/504 (retry_on_status) only for idempotent methods; other errors / 4xx not retried (non-retryable error responses are returned, not raised).
+- Attempts: max_retries=3 means up to 4 total attempts (should_retry returns False when attempt > max_retries; attempt is 1-based).
+- Delay: "full jitter": rng() * min(backoff_base * 2**attempt, backoff_max). Because attempt starts at 1, the first retry's cap is 2*base = 1.0s (not base); caps 1,2,4 s with defaults; backoff_max 8s.
+- Retry-After: only read for 429 (client passes it only when status == 429), capped at backoff_max, supports seconds or HTTP-date. README claims it's honored for 503 too -> doc/code mismatch.
+- Config precedence: dataclass defaults < JSON file (path from HTTPKIT_CONFIG or ~/.httpkit.json) < env vars. Env var is HTTPKIT_RETRIES in code but README says HTTPKIT_MAX_RETRIES -> documented var silently ignored.
+- Per-call override: request(..., retry={...}) merges dict over vars(settings) and builds a new RetrySettings/RetryPolicy (note: the override policy loses any custom sleep/rng injected into the default policy -- minor).
+- Other notable issues: _urllib_transport maps ALL other OSError to TimeoutError (e.g. SSL/other socket errors become "timeouts"), and URLError wrapping a socket timeout is mapped to ConnectionError -> such timeouts would be retried even for POST (possible duplicate side effects). File config with JSON list for retry_on_status becomes a list (works with `in`). Retry-After given as HTTP-date in the past -> 0 delay.
+- Where configured: config.py (RetrySettings defaults, load_config), retry.py (IDEMPOTENT set, status logic), client.py (per-call override, Retry-After only for 429).

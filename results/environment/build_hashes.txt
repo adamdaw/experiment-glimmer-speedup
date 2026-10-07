@@ -1,0 +1,9 @@
+# sha256 of the llama-server binaries and libraries used (paths shortened to the build-relative name)
+# llama.cpp 7ab4ee7ba (A1 and all candidates), Vulkan Release build
+165d8584479bdf4da4ea44cdaa314df97499e268260ec6a99cdeab8ea0be04ce  build-7ab4ee7ba/bin/llama-server
+5ac087894a66010f7b199e390474340fe308d4dd483f473cace3c1f37fe2cc63  build-7ab4ee7ba/bin/libllama.so.0.4.1
+15ab2b0747ec6496bd6b591e220eb5e3d90d876806f54ba22ecfb1e0650efe5d  build-7ab4ee7ba/bin/libggml-vulkan.so.0.24.0
+# llama.cpp 7d6f5d02b (A0 = pre-study production build, from a prebuilt container image)
+cac3b6c03fba6523816aaa30eb21fabda1af432a8713da3522d9f7b4b1a325e4  prod-7d6f5d02b/bin/llama-server
+8e27b842b526bcea1579121f86b1ba5e27a2c413adc9ff5eae21ed4be8a8a8dc  prod-7d6f5d02b/lib64/libllama.so.0
+aa1ad8c3a938cb12dfbbcd8bc41e47109df6d88c1b09ee4ef79adbde9f6be28c  prod-7d6f5d02b/lib64/libggml-vulkan.so.0

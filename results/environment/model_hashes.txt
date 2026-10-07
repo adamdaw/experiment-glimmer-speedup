@@ -1,0 +1,7 @@
+# Model files (not redistributed). sha256 = Hugging Face LFS oid at the pinned revision; "measured" = hashed locally in the study.
+# file | repo @ revision | bytes | sha256 | local check
+dflash-Muse-Glimmer-30B-Q4_K_M.gguf | meta-models/Muse-Glimmer-30B-GGUF @ 70bf1b61ac09f91b24d39038091b41c582bc5d7a | 1631208128 | b2e808bf656086fe86bd0d0bd990f01d33e377537a07c02d45371517c8b264ef | measured, matches
+Muse-Glimmer-30B-KQuant-Dynamic-Q4_K_XL.gguf | meta-models/Muse-Glimmer-30B-GGUF @ 70bf1b61ac09f91b24d39038091b41c582bc5d7a | 19653960832 | ac7023d6a4c704eb9af54ab53e476a66b7f5b6c0ef2fc4a8dde5253c291a6c38 | measured, matches
+Muse-Glimmer-30B-UD-Q5_K_M.gguf | unsloth/Muse-Glimmer-30B-GGUF @ faa5b025c584459c13febfa5c59883516710ae39 | 19194274848 | 27c27bc0cc2591344a9ef977d57aa79a9d36ddebee59660bd2abbf738f940f5b | measured, matches
+Muse-Glimmer-30B-UD-Q6_K_XL.gguf | unsloth/Muse-Glimmer-30B-GGUF @ faa5b025c584459c13febfa5c59883516710ae39 | 26265362976 | fb5f80d110c4fa932cc652e70873c0bd12c0954009038aa675e65086104c2739 | measured, matches
+Muse-Glimmer-30B-Q8_0.gguf | unsloth/Muse-Glimmer-30B-GGUF @ faa5b025c584459c13febfa5c59883516710ae39 | 29612957984 | f2c087d694ca8242a4a436076df7c041703ab051ac4b72bb1bfe2698299b0e86 | not re-hashed in the study; size matches and the recorded prefix/suffix f2c087d6...0b86 matches; download revision not recorded

@@ -1,0 +1,300 @@
+2026-09-14T13:59:00.000Z INFO  [checkout-svc] starting checkout-svc version=2.13.4 pid=41 pool.max=20 pool.acquire_timeout_ms=5000
+2026-09-14T13:59:00.000Z WARN  [metrics-exporter] TLS certificate for metrics.internal expires in 29 days (2026-10-13)
+2026-09-14T13:59:02.826Z INFO  [checkout-svc] req=r01001 path=/orders status=200 dur=32ms
+2026-09-14T13:59:04.622Z INFO  [checkout-svc] req=r01002 path=/checkout status=200 dur=213ms
+2026-09-14T13:59:08.509Z INFO  [checkout-svc] req=r01003 path=/products status=200 dur=74ms
+2026-09-14T13:59:10.162Z INFO  [checkout-svc] req=r01004 path=/orders status=200 dur=37ms
+2026-09-14T13:59:12.647Z INFO  [checkout-svc] req=r01005 path=/orders status=200 dur=35ms
+2026-09-14T13:59:16.463Z INFO  [checkout-svc] req=r01006 path=/cart status=200 dur=35ms
+2026-09-14T13:59:20.326Z INFO  [checkout-svc] req=r01007 path=/checkout status=200 dur=176ms
+2026-09-14T13:59:22.016Z INFO  [checkout-svc] req=r01008 path=/cart status=200 dur=94ms
+2026-09-14T13:59:25.232Z INFO  [checkout-svc] req=r01009 path=/checkout status=200 dur=266ms
+2026-09-14T13:59:27.995Z INFO  [checkout-svc] req=r01010 path=/products status=200 dur=66ms
+2026-09-14T13:59:29.917Z INFO  [checkout-svc] req=r01011 path=/products status=200 dur=68ms
+2026-09-14T13:59:32.942Z INFO  [sqlpool] pool stats active=1 idle=19 waiting=0 max=20
+2026-09-14T13:59:36.685Z INFO  [checkout-svc] req=r01012 path=/products status=200 dur=35ms
+2026-09-14T13:59:40.720Z INFO  [checkout-svc] req=r01013 path=/products status=200 dur=156ms
+2026-09-14T13:59:43.971Z INFO  [checkout-svc] req=r01014 path=/orders status=200 dur=136ms
+2026-09-14T13:59:46.952Z INFO  [checkout-svc] req=r01015 path=/products status=200 dur=66ms
+2026-09-14T13:59:49.451Z INFO  [checkout-svc] req=r01016 path=/cart status=200 dur=154ms
+2026-09-14T13:59:52.978Z INFO  [checkout-svc] req=r01017 path=/products status=200 dur=134ms
+2026-09-14T13:59:55.657Z INFO  [checkout-svc] req=r01018 path=/checkout status=200 dur=150ms
+2026-09-14T13:59:59.253Z INFO  [checkout-svc] req=r01019 path=/products status=200 dur=107ms
+2026-09-14T14:00:01.375Z INFO  [checkout-svc] req=r01020 path=/orders status=200 dur=30ms
+2026-09-14T14:00:03.192Z INFO  [sqlpool] pool stats active=3 idle=17 waiting=0 max=20
+2026-09-14T14:00:07.039Z INFO  [checkout-svc] req=r01021 path=/products status=200 dur=100ms
+2026-09-14T14:00:09.932Z INFO  [checkout-svc] req=r01022 path=/products status=200 dur=147ms
+2026-09-14T14:00:13.807Z INFO  [checkout-svc] req=r01023 path=/checkout status=200 dur=335ms
+2026-09-14T14:00:15.690Z INFO  [checkout-svc] req=r01024 path=/orders status=200 dur=36ms
+2026-09-14T14:00:17.438Z INFO  [checkout-svc] req=r01025 path=/cart status=200 dur=134ms
+2026-09-14T14:00:20.103Z INFO  [checkout-svc] req=r01026 path=/products status=200 dur=108ms
+2026-09-14T14:00:21.695Z INFO  [checkout-svc] req=r01027 path=/cart status=200 dur=63ms
+2026-09-14T14:00:25.697Z INFO  [checkout-svc] req=r01028 path=/checkout status=200 dur=175ms
+2026-09-14T14:00:28.374Z INFO  [checkout-svc] req=r01029 path=/cart status=200 dur=121ms
+2026-09-14T14:00:31.475Z INFO  [checkout-svc] req=r01030 path=/orders status=200 dur=40ms
+2026-09-14T14:00:33.656Z INFO  [sqlpool] pool stats active=2 idle=18 waiting=0 max=20
+2026-09-14T14:00:36.801Z INFO  [checkout-svc] req=r01031 path=/cart status=200 dur=130ms
+2026-09-14T14:00:40.554Z INFO  [checkout-svc] req=r01032 path=/orders status=200 dur=111ms
+2026-09-14T14:00:43.612Z INFO  [checkout-svc] req=r01033 path=/cart status=200 dur=41ms
+2026-09-14T14:00:45.833Z INFO  [checkout-svc] req=r01034 path=/products status=200 dur=79ms
+2026-09-14T14:00:47.382Z INFO  [checkout-svc] req=r01035 path=/products status=200 dur=66ms
+2026-09-14T14:00:49.958Z INFO  [checkout-svc] req=r01036 path=/cart status=200 dur=127ms
+2026-09-14T14:00:53.647Z INFO  [checkout-svc] req=r01037 path=/products status=200 dur=101ms
+2026-09-14T14:00:55.661Z INFO  [checkout-svc] req=r01038 path=/products status=200 dur=33ms
+2026-09-14T14:00:59.031Z INFO  [checkout-svc] req=r01039 path=/products status=200 dur=120ms
+2026-09-14T14:01:02.161Z INFO  [checkout-svc] req=r01040 path=/checkout status=200 dur=243ms
+2026-09-14T14:01:06.259Z INFO  [sqlpool] pool stats active=2 idle=18 waiting=0 max=20
+2026-09-14T14:01:08.013Z INFO  [checkout-svc] req=r01041 path=/cart status=200 dur=132ms
+2026-09-14T14:01:10.177Z INFO  [deployer] rollout checkout-svc 2.13.4 -> 2.14.0 complete (changes: gift card balance check at checkout, new payment retry config, log format tweaks)
+2026-09-14T14:01:10.177Z INFO  [checkout-svc] starting checkout-svc version=2.14.0 pid=57 pool.max=20 pool.acquire_timeout_ms=5000
+2026-09-14T14:01:12.127Z INFO  [checkout-svc] req=r01042 path=/checkout status=200 dur=146ms
+2026-09-14T14:01:13.627Z INFO  [checkout-svc] req=r01043 path=/products status=200 dur=45ms
+2026-09-14T14:01:16.616Z INFO  [checkout-svc] req=r01044 path=/checkout status=200 dur=343ms
+2026-09-14T14:01:18.967Z INFO  [checkout-svc] req=r01045 path=/cart status=200 dur=84ms
+2026-09-14T14:01:21.889Z INFO  [checkout-svc] req=r01046 path=/orders status=200 dur=51ms
+2026-09-14T14:01:23.861Z INFO  [checkout-svc] req=r01047 path=/orders status=200 dur=142ms
+2026-09-14T14:01:27.342Z INFO  [checkout-svc] req=r01048 path=/cart status=200 dur=46ms
+2026-09-14T14:01:30.245Z INFO  [checkout-svc] req=r01049 path=/orders status=200 dur=61ms
+2026-09-14T14:01:33.859Z WARN  [giftcard-client] req=r01050 balance lookup card=****9654 -> 404 card_not_found (dur=84ms)
+2026-09-14T14:01:33.859Z INFO  [checkout-svc] req=r01050 path=/checkout giftcard=rejected status=402 dur=129ms
+2026-09-14T14:01:35.469Z INFO  [checkout-svc] req=r01051 path=/cart status=200 dur=43ms
+2026-09-14T14:01:38.038Z INFO  [sqlpool] pool stats active=4 idle=16 waiting=0 max=20
+2026-09-14T14:01:41.040Z INFO  [checkout-svc] req=r01052 path=/cart status=200 dur=77ms
+2026-09-14T14:01:44.721Z INFO  [checkout-svc] req=r01053 path=/products status=200 dur=104ms
+2026-09-14T14:01:48.827Z WARN  [runtime] gc pause 104ms (heap 71%)
+2026-09-14T14:01:51.307Z INFO  [checkout-svc] req=r01055 path=/products status=200 dur=78ms
+2026-09-14T14:01:53.625Z INFO  [checkout-svc] req=r01056 path=/cart status=200 dur=27ms
+2026-09-14T14:01:55.239Z INFO  [checkout-svc] req=r01057 path=/orders status=200 dur=86ms
+2026-09-14T14:01:57.532Z INFO  [checkout-svc] req=r01058 path=/cart status=200 dur=134ms
+2026-09-14T14:02:00.463Z INFO  [checkout-svc] req=r01059 path=/cart status=200 dur=40ms
+2026-09-14T14:02:02.866Z WARN  [giftcard-client] req=r01060 balance lookup card=****8701 -> 404 card_not_found (dur=53ms)
+2026-09-14T14:02:02.866Z INFO  [checkout-svc] req=r01060 path=/checkout giftcard=rejected status=402 dur=121ms
+2026-09-14T14:02:06.922Z INFO  [checkout-svc] req=r01061 path=/products status=200 dur=20ms
+2026-09-14T14:02:10.385Z INFO  [sqlpool] pool stats active=5 idle=15 waiting=0 max=20
+2026-09-14T14:02:13.294Z INFO  [checkout-svc] req=r01062 path=/checkout status=200 dur=333ms
+2026-09-14T14:02:15.285Z INFO  [checkout-svc] req=r01063 path=/products status=200 dur=71ms
+2026-09-14T14:02:18.743Z INFO  [checkout-svc] req=r01064 path=/orders status=200 dur=105ms
+2026-09-14T14:02:20.598Z INFO  [checkout-svc] req=r01065 path=/products status=200 dur=121ms
+2026-09-14T14:02:23.995Z INFO  [checkout-svc] req=r01066 path=/checkout status=200 dur=305ms
+2026-09-14T14:02:26.145Z WARN  [giftcard-client] req=r01067 balance lookup card=****3081 -> 404 card_not_found (dur=77ms)
+2026-09-14T14:02:26.145Z INFO  [checkout-svc] req=r01067 path=/checkout giftcard=rejected status=402 dur=119ms
+2026-09-14T14:02:30.331Z INFO  [checkout-svc] req=r01068 path=/checkout giftcard=applied status=200 dur=299ms
+2026-09-14T14:02:32.469Z INFO  [checkout-svc] req=r01069 path=/cart status=200 dur=25ms
+2026-09-14T14:02:34.027Z INFO  [checkout-svc] req=r01070 path=/products status=200 dur=46ms
+2026-09-14T14:02:37.683Z INFO  [checkout-svc] req=r01071 path=/cart status=200 dur=131ms
+2026-09-14T14:02:39.980Z INFO  [checkout-svc] req=r01072 path=/cart status=200 dur=27ms
+2026-09-14T14:02:42.511Z INFO  [sqlpool] pool stats active=4 idle=16 waiting=0 max=20
+2026-09-14T14:02:45.210Z INFO  [checkout-svc] req=r01073 path=/products status=200 dur=103ms
+2026-09-14T14:02:47.772Z INFO  [checkout-svc] req=r01074 path=/products status=200 dur=53ms
+2026-09-14T14:02:49.521Z INFO  [checkout-svc] req=r01075 path=/cart status=200 dur=137ms
+2026-09-14T14:02:53.410Z INFO  [checkout-svc] req=r01076 path=/products status=200 dur=127ms
+2026-09-14T14:02:56.964Z WARN  [giftcard-client] req=r01077 balance lookup card=****3487 -> 404 card_not_found (dur=41ms)
+2026-09-14T14:02:56.964Z INFO  [checkout-svc] req=r01077 path=/checkout giftcard=rejected status=402 dur=116ms
+2026-09-14T14:02:59.214Z INFO  [checkout-svc] req=r01078 path=/products status=200 dur=58ms
+2026-09-14T14:03:01.419Z WARN  [giftcard-client] req=r01079 balance lookup card=****2971 -> 404 card_not_found (dur=60ms)
+2026-09-14T14:03:01.419Z INFO  [checkout-svc] req=r01079 path=/checkout giftcard=rejected status=402 dur=126ms
+2026-09-14T14:03:05.092Z INFO  [checkout-svc] req=r01080 path=/products status=200 dur=47ms
+2026-09-14T14:03:08.886Z WARN  [giftcard-client] req=r01081 balance lookup card=****4134 -> 404 card_not_found (dur=89ms)
+2026-09-14T14:03:08.886Z INFO  [checkout-svc] req=r01081 path=/checkout giftcard=rejected status=402 dur=72ms
+2026-09-14T14:03:12.465Z INFO  [checkout-svc] req=r01082 path=/checkout status=200 dur=314ms
+2026-09-14T14:03:14.224Z INFO  [sqlpool] pool stats active=8 idle=12 waiting=0 max=20
+2026-09-14T14:03:17.057Z INFO  [checkout-svc] req=r01083 path=/products status=200 dur=151ms
+2026-09-14T14:03:19.373Z INFO  [checkout-svc] req=r01084 path=/orders status=200 dur=150ms
+2026-09-14T14:03:23.057Z INFO  [checkout-svc] req=r01085 path=/products status=200 dur=83ms
+2026-09-14T14:03:26.700Z INFO  [checkout-svc] req=r01086 path=/cart status=200 dur=71ms
+2026-09-14T14:03:30.033Z WARN  [giftcard-client] req=r01087 balance lookup card=****2992 -> 404 card_not_found (dur=60ms)
+2026-09-14T14:03:30.033Z INFO  [checkout-svc] req=r01087 path=/checkout giftcard=rejected status=402 dur=69ms
+2026-09-14T14:03:32.518Z INFO  [checkout-svc] req=r01088 path=/cart status=200 dur=97ms
+2026-09-14T14:03:34.519Z INFO  [checkout-svc] req=r01089 path=/cart status=200 dur=113ms
+2026-09-14T14:03:36.604Z WARN  [redis] slow command GET session:* 38ms
+2026-09-14T14:03:40.019Z WARN  [giftcard-client] req=r01091 balance lookup card=****2542 -> 404 card_not_found (dur=71ms)
+2026-09-14T14:03:40.019Z INFO  [checkout-svc] req=r01091 path=/checkout giftcard=rejected status=402 dur=80ms
+2026-09-14T14:03:42.435Z INFO  [checkout-svc] req=r01092 path=/checkout giftcard=applied status=200 dur=326ms
+2026-09-14T14:03:45.324Z INFO  [sqlpool] pool stats active=10 idle=10 waiting=0 max=20
+2026-09-14T14:03:47.625Z INFO  [checkout-svc] req=r01093 path=/checkout status=200 dur=304ms
+2026-09-14T14:03:50.623Z WARN  [giftcard-client] req=r01094 balance lookup card=****8514 -> 404 card_not_found (dur=41ms)
+2026-09-14T14:03:50.623Z INFO  [checkout-svc] req=r01094 path=/checkout giftcard=rejected status=402 dur=109ms
+2026-09-14T14:03:53.480Z INFO  [checkout-svc] req=r01095 path=/cart status=200 dur=151ms
+2026-09-14T14:03:55.243Z INFO  [checkout-svc] req=r01096 path=/checkout giftcard=applied status=200 dur=173ms
+2026-09-14T14:03:57.087Z WARN  [node] disk usage /var/log 81%
+2026-09-14T14:03:59.330Z WARN  [node] disk usage /var/log 81%
+2026-09-14T14:04:02.559Z INFO  [checkout-svc] req=r01099 path=/products status=200 dur=86ms
+2026-09-14T14:04:05.721Z WARN  [giftcard-client] req=r01100 balance lookup card=****9434 -> 404 card_not_found (dur=84ms)
+2026-09-14T14:04:05.721Z INFO  [checkout-svc] req=r01100 path=/checkout giftcard=rejected status=402 dur=101ms
+2026-09-14T14:04:07.587Z WARN  [sqlpool] connection pg-6 held for 115s by giftcard.balance_lookup (leak detection threshold 60s)
+2026-09-14T14:04:09.383Z WARN  [node] disk usage /var/log 81%
+2026-09-14T14:04:13.481Z WARN  [giftcard-client] req=r01103 balance lookup card=****5268 -> 404 card_not_found (dur=54ms)
+2026-09-14T14:04:13.481Z INFO  [checkout-svc] req=r01103 path=/checkout giftcard=rejected status=402 dur=68ms
+2026-09-14T14:04:16.064Z INFO  [sqlpool] pool stats active=12 idle=8 waiting=0 max=20
+2026-09-14T14:04:19.422Z INFO  [checkout-svc] req=r01104 path=/checkout giftcard=applied status=200 dur=257ms
+2026-09-14T14:04:23.468Z INFO  [checkout-svc] req=r01105 path=/checkout giftcard=applied status=200 dur=176ms
+2026-09-14T14:04:25.629Z WARN  [redis] slow command GET session:* 41ms
+2026-09-14T14:04:27.955Z INFO  [checkout-svc] req=r01107 path=/products status=200 dur=98ms
+2026-09-14T14:04:31.630Z INFO  [checkout-svc] req=r01108 path=/cart status=200 dur=134ms
+2026-09-14T14:04:35.178Z INFO  [checkout-svc] req=r01109 path=/cart status=200 dur=108ms
+2026-09-14T14:04:36.752Z INFO  [checkout-svc] req=r01110 path=/checkout status=200 dur=123ms
+2026-09-14T14:04:38.327Z INFO  [checkout-svc] req=r01111 path=/products status=200 dur=68ms
+2026-09-14T14:04:41.933Z INFO  [checkout-svc] req=r01112 path=/orders status=200 dur=47ms
+2026-09-14T14:04:46.129Z INFO  [sqlpool] pool stats active=14 idle=6 waiting=0 max=20
+2026-09-14T14:04:49.399Z INFO  [checkout-svc] req=r01113 path=/products status=200 dur=120ms
+2026-09-14T14:04:52.974Z WARN  [sqlpool] connection pg-7 held for 119s by giftcard.balance_lookup (leak detection threshold 60s)
+2026-09-14T14:04:55.877Z WARN  [giftcard-client] req=r01115 balance lookup card=****3289 -> 404 card_not_found (dur=62ms)
+2026-09-14T14:04:55.877Z INFO  [checkout-svc] req=r01115 path=/checkout giftcard=rejected status=402 dur=66ms
+2026-09-14T14:04:57.908Z WARN  [giftcard-client] req=r01116 balance lookup card=****5187 -> 404 card_not_found (dur=43ms)
+2026-09-14T14:04:57.908Z INFO  [checkout-svc] req=r01116 path=/checkout giftcard=rejected status=402 dur=70ms
+2026-09-14T14:05:00.968Z INFO  [checkout-svc] req=r01117 path=/products status=200 dur=92ms
+2026-09-14T14:05:04.920Z WARN  [runtime] gc pause 117ms (heap 71%)
+2026-09-14T14:05:06.605Z INFO  [checkout-svc] req=r01119 path=/cart status=200 dur=88ms
+2026-09-14T14:05:09.931Z INFO  [checkout-svc] req=r01120 path=/checkout giftcard=applied status=200 dur=805ms
+2026-09-14T14:05:12.432Z WARN  [giftcard-client] req=r01121 balance lookup card=****6071 -> 404 card_not_found (dur=51ms)
+2026-09-14T14:05:12.432Z INFO  [checkout-svc] req=r01121 path=/checkout giftcard=rejected status=402 dur=60ms
+2026-09-14T14:05:15.305Z INFO  [checkout-svc] req=r01122 path=/orders status=200 dur=91ms
+2026-09-14T14:05:18.864Z INFO  [sqlpool] pool stats active=17 idle=3 waiting=0 max=20
+2026-09-14T14:05:21.187Z WARN  [runtime] gc pause 80ms (heap 71%)
+2026-09-14T14:05:23.059Z WARN  [redis] slow command GET session:* 35ms
+2026-09-14T14:05:25.148Z INFO  [checkout-svc] req=r01125 path=/checkout status=200 dur=220ms
+2026-09-14T14:05:26.740Z WARN  [sqlpool] connection pg-8 held for 82s by giftcard.balance_lookup (leak detection threshold 60s)
+2026-09-14T14:05:30.638Z INFO  [checkout-svc] req=r01127 path=/products status=200 dur=59ms
+2026-09-14T14:05:34.831Z INFO  [checkout-svc] req=r01128 path=/products status=200 dur=119ms
+2026-09-14T14:05:37.666Z INFO  [checkout-svc] req=r01129 path=/orders status=200 dur=58ms
+2026-09-14T14:05:40.329Z INFO  [checkout-svc] req=r01130 path=/products status=200 dur=57ms
+2026-09-14T14:05:42.008Z INFO  [checkout-svc] req=r01131 path=/products status=200 dur=151ms
+2026-09-14T14:05:46.077Z INFO  [checkout-svc] req=r01132 path=/products status=200 dur=149ms
+2026-09-14T14:05:48.147Z INFO  [checkout-svc] req=r01133 path=/products status=200 dur=149ms
+2026-09-14T14:05:51.975Z INFO  [sqlpool] pool stats active=15 idle=5 waiting=0 max=20
+2026-09-14T14:05:55.867Z INFO  [checkout-svc] req=r01134 path=/products status=200 dur=78ms
+2026-09-14T14:05:57.715Z INFO  [checkout-svc] req=r01135 path=/checkout giftcard=applied status=200 dur=733ms
+2026-09-14T14:06:00.757Z INFO  [checkout-svc] req=r01136 path=/products status=200 dur=32ms
+2026-09-14T14:06:04.828Z INFO  [checkout-svc] req=r01137 path=/checkout giftcard=applied status=200 dur=930ms
+2026-09-14T14:06:07.408Z INFO  [checkout-svc] req=r01138 path=/checkout giftcard=applied status=200 dur=937ms
+2026-09-14T14:06:11.100Z WARN  [giftcard-client] req=r01139 balance lookup card=****9617 -> 404 card_not_found (dur=87ms)
+2026-09-14T14:06:11.100Z INFO  [checkout-svc] req=r01139 path=/checkout giftcard=rejected status=402 dur=120ms
+2026-09-14T14:06:13.632Z INFO  [checkout-svc] req=r01140 path=/products status=200 dur=1248ms
+2026-09-14T14:06:15.972Z WARN  [runtime] gc pause 138ms (heap 71%)
+2026-09-14T14:06:19.495Z INFO  [checkout-svc] req=r01142 path=/checkout status=200 dur=1618ms
+2026-09-14T14:06:21.186Z INFO  [checkout-svc] req=r01143 path=/products status=200 dur=587ms
+2026-09-14T14:06:25.142Z INFO  [sqlpool] pool stats active=16 idle=4 waiting=0 max=20
+2026-09-14T14:06:28.000Z WARN  [redis] slow command GET session:* 49ms
+2026-09-14T14:06:32.044Z INFO  [checkout-svc] req=r01145 path=/checkout status=200 dur=691ms
+2026-09-14T14:06:35.533Z WARN  [node] disk usage /var/log 83%
+2026-09-14T14:06:37.440Z INFO  [checkout-svc] req=r01147 path=/products status=200 dur=1536ms
+2026-09-14T14:06:41.055Z WARN  [sqlpool] connection pg-15 held for 299s by giftcard.balance_lookup (leak detection threshold 60s)
+2026-09-14T14:06:43.040Z INFO  [checkout-svc] req=r01149 path=/products status=200 dur=1547ms
+2026-09-14T14:06:44.891Z INFO  [checkout-svc] req=r01150 path=/checkout status=200 dur=2273ms
+2026-09-14T14:06:46.704Z INFO  [checkout-svc] req=r01151 path=/orders status=200 dur=1872ms
+2026-09-14T14:06:49.063Z INFO  [checkout-svc] req=r01152 path=/cart status=200 dur=608ms
+2026-09-14T14:06:51.143Z INFO  [checkout-svc] req=r01153 path=/cart status=200 dur=855ms
+2026-09-14T14:06:55.114Z INFO  [checkout-svc] req=r01154 path=/products status=200 dur=752ms
+2026-09-14T14:06:58.109Z INFO  [sqlpool] pool stats active=16 idle=4 waiting=0 max=20
+2026-09-14T14:07:01.648Z INFO  [checkout-svc] req=r01155 path=/orders status=200 dur=421ms
+2026-09-14T14:07:03.799Z INFO  [checkout-svc] req=r01156 path=/checkout giftcard=applied status=200 dur=927ms
+2026-09-14T14:07:06.535Z INFO  [checkout-svc] req=r01157 path=/orders status=200 dur=1848ms
+2026-09-14T14:07:09.329Z WARN  [giftcard-client] req=r01158 balance lookup card=****6428 -> 404 card_not_found (dur=88ms)
+2026-09-14T14:07:09.329Z INFO  [checkout-svc] req=r01158 path=/checkout giftcard=rejected status=402 dur=103ms
+2026-09-14T14:07:12.460Z INFO  [checkout-svc] req=r01159 path=/checkout giftcard=applied status=200 dur=908ms
+2026-09-14T14:07:14.997Z INFO  [checkout-svc] req=r01160 path=/orders status=200 dur=631ms
+2026-09-14T14:07:17.974Z INFO  [checkout-svc] req=r01161 path=/products status=200 dur=487ms
+2026-09-14T14:07:20.623Z INFO  [checkout-svc] req=r01162 path=/checkout giftcard=applied status=200 dur=836ms
+2026-09-14T14:07:23.144Z INFO  [checkout-svc] req=r01163 path=/orders status=200 dur=1642ms
+2026-09-14T14:07:25.421Z INFO  [checkout-svc] req=r01164 path=/products status=200 dur=447ms
+2026-09-14T14:07:29.505Z INFO  [sqlpool] pool stats active=18 idle=2 waiting=3 max=20
+2026-09-14T14:07:33.254Z WARN  [giftcard-client] req=r01165 balance lookup card=****2320 -> 404 card_not_found (dur=86ms)
+2026-09-14T14:07:33.254Z INFO  [checkout-svc] req=r01165 path=/checkout giftcard=rejected status=402 dur=112ms
+2026-09-14T14:07:36.600Z INFO  [checkout-svc] req=r01166 path=/cart status=200 dur=2281ms
+2026-09-14T14:07:38.300Z INFO  [checkout-svc] req=r01167 path=/products status=200 dur=951ms
+2026-09-14T14:07:41.734Z INFO  [checkout-svc] req=r01168 path=/cart status=200 dur=1343ms
+2026-09-14T14:07:45.907Z WARN  [redis] slow command GET session:* 45ms
+2026-09-14T14:07:48.639Z INFO  [checkout-svc] req=r01170 path=/products status=200 dur=810ms
+2026-09-14T14:07:50.824Z INFO  [checkout-svc] req=r01171 path=/checkout status=200 dur=2423ms
+2026-09-14T14:07:54.360Z INFO  [checkout-svc] req=r01172 path=/orders status=200 dur=2148ms
+2026-09-14T14:07:57.610Z WARN  [giftcard-client] req=r01173 balance lookup card=****4152 -> 404 card_not_found (dur=51ms)
+2026-09-14T14:07:57.610Z INFO  [checkout-svc] req=r01173 path=/checkout giftcard=rejected status=402 dur=103ms
+2026-09-14T14:08:01.386Z INFO  [sqlpool] pool stats active=19 idle=1 waiting=3 max=20
+2026-09-14T14:08:03.865Z INFO  [checkout-svc] req=r01174 path=/products status=200 dur=353ms
+2026-09-14T14:08:07.055Z INFO  [checkout-svc] req=r01175 path=/products status=200 dur=1214ms
+2026-09-14T14:08:10.098Z WARN  [node] disk usage /var/log 81%
+2026-09-14T14:08:13.638Z WARN  [sqlpool] connection pg-12 held for 125s by giftcard.balance_lookup (leak detection threshold 60s)
+2026-09-14T14:08:17.199Z INFO  [checkout-svc] req=r01178 path=/products status=200 dur=654ms
+2026-09-14T14:08:19.809Z INFO  [checkout-svc] req=r01179 path=/orders status=200 dur=2148ms
+2026-09-14T14:08:23.077Z INFO  [checkout-svc] req=r01180 path=/products status=200 dur=746ms
+2026-09-14T14:08:24.709Z INFO  [checkout-svc] req=r01181 path=/products status=200 dur=2347ms
+2026-09-14T14:08:26.209Z INFO  [checkout-svc] req=r01182 path=/checkout giftcard=applied status=200 dur=1069ms
+2026-09-14T14:08:28.726Z INFO  [checkout-svc] req=r01183 path=/cart status=200 dur=881ms
+2026-09-14T14:08:32.365Z INFO  [sqlpool] pool stats active=20 idle=0 waiting=1 max=20
+2026-09-14T14:08:36.516Z INFO  [checkout-svc] req=r01184 path=/orders status=200 dur=2499ms
+2026-09-14T14:08:38.177Z WARN  [giftcard-client] req=r01185 balance lookup card=****3058 -> 404 card_not_found (dur=42ms)
+2026-09-14T14:08:38.177Z INFO  [checkout-svc] req=r01185 path=/checkout giftcard=rejected status=402 dur=98ms
+2026-09-14T14:08:40.201Z INFO  [checkout-svc] req=r01186 path=/products status=200 dur=790ms
+2026-09-14T14:08:42.108Z ERROR [checkout-svc] req=r01187 path=/checkout error="sqlpool: timeout acquiring connection after 5000ms (active=20 idle=0)" status=503 dur=5025ms
+2026-09-14T14:08:44.676Z ERROR [checkout-svc] req=r01188 path=/checkout error="sqlpool: timeout acquiring connection after 5000ms (active=20 idle=0)" status=503 dur=5001ms
+2026-09-14T14:08:48.377Z ERROR [checkout-svc] req=r01189 path=/cart error="sqlpool: timeout acquiring connection after 5000ms (active=20 idle=0)" status=503 dur=5018ms
+2026-09-14T14:08:51.172Z INFO  [checkout-svc] req=r01190 path=/cart status=200 dur=2496ms
+2026-09-14T14:08:53.633Z ERROR [checkout-svc] req=r01191 path=/checkout error="sqlpool: timeout acquiring connection after 5000ms (active=20 idle=0)" status=503 dur=5027ms
+2026-09-14T14:08:57.793Z ERROR [checkout-svc] req=r01192 path=/checkout error="sqlpool: timeout acquiring connection after 5000ms (active=20 idle=0)" status=503 dur=5013ms
+2026-09-14T14:09:01.334Z INFO  [checkout-svc] req=r01193 path=/products status=200 dur=659ms
+2026-09-14T14:09:03.887Z INFO  [sqlpool] pool stats active=20 idle=0 waiting=5 max=20
+2026-09-14T14:09:06.903Z ERROR [checkout-svc] req=r01194 path=/checkout error="sqlpool: timeout acquiring connection after 5000ms (active=20 idle=0)" status=503 dur=5022ms
+2026-09-14T14:09:10.125Z ERROR [checkout-svc] req=r01195 path=/cart error="sqlpool: timeout acquiring connection after 5000ms (active=20 idle=0)" status=503 dur=5013ms
+2026-09-14T14:09:11.652Z INFO  [checkout-svc] req=r01196 path=/products status=200 dur=625ms
+2026-09-14T14:09:13.992Z ERROR [checkout-svc] req=r01197 path=/checkout error="sqlpool: timeout acquiring connection after 5000ms (active=20 idle=0)" status=503 dur=5020ms
+2026-09-14T14:09:16.286Z ERROR [checkout-svc] req=r01198 path=/checkout error="sqlpool: timeout acquiring connection after 5000ms (active=20 idle=0)" status=503 dur=5017ms
+2026-09-14T14:09:18.994Z ERROR [checkout-svc] req=r01199 path=/cart error="sqlpool: timeout acquiring connection after 5000ms (active=20 idle=0)" status=503 dur=5040ms
+2026-09-14T14:09:21.261Z INFO  [checkout-svc] req=r01200 path=/orders status=200 dur=557ms
+2026-09-14T14:09:25.197Z ERROR [checkout-svc] req=r01201 path=/cart error="sqlpool: timeout acquiring connection after 5000ms (active=20 idle=0)" status=503 dur=5004ms
+2026-09-14T14:09:27.569Z ERROR [checkout-svc] req=r01202 path=/checkout error="sqlpool: timeout acquiring connection after 5000ms (active=20 idle=0)" status=503 dur=5027ms
+2026-09-14T14:09:29.281Z INFO  [checkout-svc] req=r01203 path=/cart status=200 dur=2161ms
+2026-09-14T14:09:32.067Z INFO  [checkout-svc] req=r01204 path=/checkout status=200 dur=1710ms
+2026-09-14T14:09:34.348Z INFO  [sqlpool] pool stats active=20 idle=0 waiting=6 max=20
+2026-09-14T14:09:37.763Z ERROR [checkout-svc] req=r01205 path=/cart error="sqlpool: timeout acquiring connection after 5000ms (active=20 idle=0)" status=503 dur=5024ms
+2026-09-14T14:09:40.621Z WARN  [kubelet] liveness probe failed for checkout-svc-7c9d (GET /healthz timeout 3s) x3, restarting container
+2026-09-14T14:09:40.621Z INFO  [checkout-svc] starting checkout-svc version=2.14.0 pid=12 pool.max=20 pool.acquire_timeout_ms=5000
+2026-09-14T14:09:43.933Z WARN  [giftcard-client] req=r01206 balance lookup card=****1047 -> 404 card_not_found (dur=45ms)
+2026-09-14T14:09:43.933Z INFO  [checkout-svc] req=r01206 path=/checkout giftcard=rejected status=402 dur=104ms
+2026-09-14T14:09:47.154Z INFO  [checkout-svc] req=r01207 path=/checkout status=200 dur=263ms
+2026-09-14T14:09:49.503Z INFO  [checkout-svc] req=r01208 path=/products status=200 dur=99ms
+2026-09-14T14:09:52.774Z WARN  [giftcard-client] req=r01209 balance lookup card=****8757 -> 404 card_not_found (dur=74ms)
+2026-09-14T14:09:52.774Z INFO  [checkout-svc] req=r01209 path=/checkout giftcard=rejected status=402 dur=117ms
+2026-09-14T14:09:55.064Z INFO  [checkout-svc] req=r01210 path=/products status=200 dur=141ms
+2026-09-14T14:09:56.688Z INFO  [checkout-svc] req=r01211 path=/cart status=200 dur=123ms
+2026-09-14T14:09:58.354Z INFO  [checkout-svc] req=r01212 path=/orders status=200 dur=36ms
+2026-09-14T14:10:00.107Z WARN  [redis] slow command GET session:* 34ms
+2026-09-14T14:10:04.087Z INFO  [checkout-svc] req=r01214 path=/cart status=200 dur=105ms
+2026-09-14T14:10:08.114Z INFO  [sqlpool] pool stats active=3 idle=17 waiting=0 max=20
+2026-09-14T14:10:10.687Z INFO  [checkout-svc] req=r01215 path=/products status=200 dur=101ms
+2026-09-14T14:10:13.315Z INFO  [checkout-svc] req=r01216 path=/products status=200 dur=36ms
+2026-09-14T14:10:14.914Z INFO  [checkout-svc] req=r01217 path=/checkout status=200 dur=241ms
+2026-09-14T14:10:18.321Z INFO  [checkout-svc] req=r01218 path=/orders status=200 dur=84ms
+2026-09-14T14:10:21.582Z INFO  [checkout-svc] req=r01219 path=/cart status=200 dur=147ms
+2026-09-14T14:10:23.831Z INFO  [checkout-svc] req=r01220 path=/checkout giftcard=applied status=200 dur=197ms
+2026-09-14T14:10:27.818Z WARN  [runtime] gc pause 120ms (heap 71%)
+2026-09-14T14:10:31.205Z INFO  [checkout-svc] req=r01222 path=/products status=200 dur=40ms
+2026-09-14T14:10:34.801Z WARN  [giftcard-client] req=r01223 balance lookup card=****3620 -> 404 card_not_found (dur=44ms)
+2026-09-14T14:10:34.801Z INFO  [checkout-svc] req=r01223 path=/checkout giftcard=rejected status=402 dur=64ms
+2026-09-14T14:10:38.274Z INFO  [sqlpool] pool stats active=6 idle=14 waiting=0 max=20
+2026-09-14T14:10:42.004Z INFO  [checkout-svc] req=r01224 path=/orders status=200 dur=46ms
+2026-09-14T14:10:43.799Z WARN  [redis] slow command GET session:* 35ms
+2026-09-14T14:10:46.152Z INFO  [checkout-svc] req=r01226 path=/checkout giftcard=applied status=200 dur=348ms
+2026-09-14T14:10:48.361Z WARN  [runtime] gc pause 133ms (heap 71%)
+2026-09-14T14:10:51.748Z INFO  [checkout-svc] req=r01228 path=/products status=200 dur=80ms
+2026-09-14T14:10:55.453Z INFO  [checkout-svc] req=r01229 path=/products status=200 dur=51ms
+2026-09-14T14:10:58.156Z INFO  [checkout-svc] req=r01230 path=/products status=200 dur=88ms
+2026-09-14T14:11:01.183Z WARN  [redis] slow command GET session:* 46ms
+2026-09-14T14:11:03.498Z INFO  [checkout-svc] req=r01232 path=/cart status=200 dur=82ms
+2026-09-14T14:11:05.962Z WARN  [giftcard-client] req=r01233 balance lookup card=****4084 -> 404 card_not_found (dur=65ms)
+2026-09-14T14:11:05.962Z INFO  [checkout-svc] req=r01233 path=/checkout giftcard=rejected status=402 dur=92ms
+2026-09-14T14:11:08.469Z INFO  [sqlpool] pool stats active=7 idle=13 waiting=0 max=20
+2026-09-14T14:11:12.124Z WARN  [runtime] gc pause 92ms (heap 71%)
+2026-09-14T14:11:16.300Z INFO  [checkout-svc] req=r01235 path=/checkout status=200 dur=146ms
+2026-09-14T14:11:17.818Z INFO  [checkout-svc] req=r01236 path=/products status=200 dur=79ms
+2026-09-14T14:11:21.154Z INFO  [checkout-svc] req=r01237 path=/checkout status=200 dur=344ms
+2026-09-14T14:11:23.856Z WARN  [runtime] gc pause 86ms (heap 71%)
+2026-09-14T14:11:26.132Z INFO  [checkout-svc] req=r01239 path=/products status=200 dur=69ms
+2026-09-14T14:11:27.939Z INFO  [checkout-svc] req=r01240 path=/products status=200 dur=65ms
+2026-09-14T14:11:31.278Z INFO  [checkout-svc] req=r01241 path=/products status=200 dur=21ms
+2026-09-14T14:11:33.211Z INFO  [checkout-svc] req=r01242 path=/products status=200 dur=109ms
+2026-09-14T14:11:35.602Z WARN  [giftcard-client] req=r01243 balance lookup card=****6570 -> 404 card_not_found (dur=53ms)
+2026-09-14T14:11:35.602Z INFO  [checkout-svc] req=r01243 path=/checkout giftcard=rejected status=402 dur=92ms
+2026-09-14T14:11:37.258Z INFO  [checkout-svc] req=r01244 path=/products status=200 dur=72ms
+2026-09-14T14:11:39.258Z ERROR [gateway] upstream checkout-svc: 5xx rate 38% over 1m (threshold 5%) -> paging on-call
+2026-09-14T14:11:40.258Z WARN  [payments] retry config: max_attempts=4 backoff=exp (new in 2.14.0) - payment-provider latency p99 410ms (normal)
+2026-09-14T14:11:42.258Z INFO  [dns] resolver cache refreshed (2 upstreams healthy)

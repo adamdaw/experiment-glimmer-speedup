@@ -1,0 +1,47 @@
+{
+  "baseline-Q8 (2026-09-28 eval)": {
+    "n_answers": 11,
+    "cgu_mean": 3.82,
+    "five_axis_mean": 3.93,
+    "correctness_mean": 3.91,
+    "groundedness_mean": 3.55,
+    "usefulness_mean": 4.0,
+    "completeness_mean": 4.45,
+    "concision_mean": 3.73,
+    "planted_bugs_found": 10,
+    "planted_bugs_total": 10,
+    "false_alarms": 2,
+    "wrong_citations": 3,
+    "hallucinated_citations": 0
+  },
+  "g-combo1": {
+    "n_answers": 22,
+    "cgu_mean": 3.74,
+    "five_axis_mean": 3.85,
+    "correctness_mean": 3.86,
+    "groundedness_mean": 3.59,
+    "usefulness_mean": 3.77,
+    "completeness_mean": 4.36,
+    "concision_mean": 3.64,
+    "planted_bugs_found": 20,
+    "planted_bugs_total": 20,
+    "false_alarms": 3,
+    "wrong_citations": 3,
+    "hallucinated_citations": 0
+  },
+  "g-df7": {
+    "n_answers": 22,
+    "cgu_mean": 3.79,
+    "five_axis_mean": 3.89,
+    "correctness_mean": 3.91,
+    "groundedness_mean": 3.59,
+    "usefulness_mean": 3.86,
+    "completeness_mean": 4.32,
+    "concision_mean": 3.77,
+    "planted_bugs_found": 20,
+    "planted_bugs_total": 20,
+    "false_alarms": 1,
+    "wrong_citations": 8,
+    "hallucinated_citations": 0
+  }
+}

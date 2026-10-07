@@ -1,0 +1,87 @@
+{
+  "note": "label -> source per task; DO NOT show to the grader. Packet: glimmer-speed/grading-packet/packet.md",
+  "candidates": [
+    "g-df7",
+    "g-combo1"
+  ],
+  "key": {
+    "r1_report_cache": {
+      "A": "g-combo1 run1",
+      "B": "g-df7 run1",
+      "C": "g-combo1 run2",
+      "D": "baseline-Q8 (2026-09-28 eval)",
+      "E": "g-df7 run2"
+    },
+    "r2_orders_route": {
+      "A": "g-df7 run1",
+      "B": "g-combo1 run2",
+      "C": "g-df7 run2",
+      "D": "g-combo1 run1",
+      "E": "baseline-Q8 (2026-09-28 eval)"
+    },
+    "r3_charge_retry": {
+      "A": "g-df7 run1",
+      "B": "baseline-Q8 (2026-09-28 eval)",
+      "C": "g-combo1 run1",
+      "D": "g-combo1 run2",
+      "E": "g-df7 run2"
+    },
+    "e1_retry": {
+      "A": "g-df7 run1",
+      "B": "baseline-Q8 (2026-09-28 eval)",
+      "C": "g-combo1 run2",
+      "D": "g-df7 run2",
+      "E": "g-combo1 run1"
+    },
+    "e2_log": {
+      "A": "g-df7 run1",
+      "B": "g-combo1 run2",
+      "C": "g-df7 run2",
+      "D": "g-combo1 run1",
+      "E": "baseline-Q8 (2026-09-28 eval)"
+    },
+    "e3_varint": {
+      "A": "baseline-Q8 (2026-09-28 eval)",
+      "B": "g-combo1 run1",
+      "C": "g-combo1 run2",
+      "D": "g-df7 run2",
+      "E": "g-df7 run1"
+    },
+    "e4_design": {
+      "A": "g-combo1 run1",
+      "B": "g-df7 run1",
+      "C": "g-combo1 run2",
+      "D": "baseline-Q8 (2026-09-28 eval)",
+      "E": "g-df7 run2"
+    },
+    "hr1_payout_retry": {
+      "A": "baseline-Q8 (2026-09-28 eval)",
+      "B": "g-combo1 run1",
+      "C": "g-df7 run2",
+      "D": "g-combo1 run2",
+      "E": "g-df7 run1"
+    },
+    "hr2_webhook_credit": {
+      "A": "g-df7 run2",
+      "B": "g-combo1 run2",
+      "C": "baseline-Q8 (2026-09-28 eval)",
+      "D": "g-df7 run1",
+      "E": "g-combo1 run1"
+    },
+    "he1_cancel": {
+      "A": "baseline-Q8 (2026-09-28 eval)",
+      "B": "g-combo1 run2",
+      "C": "g-df7 run1",
+      "D": "g-df7 run2",
+      "E": "g-combo1 run1"
+    },
+    "he2_timeouts": {
+      "A": "g-df7 run1",
+      "B": "g-combo1 run1",
+      "C": "g-combo1 run2",
+      "D": "g-df7 run2",
+      "E": "baseline-Q8 (2026-09-28 eval)"
+    }
+  },
+  "scrubbed_mentions": {}
+}

@@ -1,0 +1,111 @@
+{
+ "r1_report_cache": {
+  "file": "r1_report_cache.diff",
+  "context": "Adds a TTL cache to report generation and a top_n helper.",
+  "planted": [
+   {
+    "id": "cache_key_missing_user",
+    "desc": "Cache key omits user_id, so one user's cached report is served to other users (data leak / wrong data).",
+    "match_any": [
+     [
+      "user"
+     ],
+     [
+      "(cache|key)"
+     ]
+    ],
+    "match_mode": "all_groups"
+   },
+   {
+    "id": "top_n_ascending",
+    "desc": "top_n sorts ascending, returning the smallest amounts instead of the largest (needs reverse=True).",
+    "match_any": [
+     [
+      "top_n|sorted|sort"
+     ],
+     [
+      "ascend|reverse|smallest|lowest|wrong order|opposite order|descending order|instead of (the )?(largest|biggest|highest)"
+     ]
+    ],
+    "match_mode": "all_groups"
+   }
+  ],
+  "acceptable": [
+   "unbounded|grow|evict|memory|size limit|max.?size",
+   "thread|race|concurren|lock",
+   "mutab|shared (dict|object|result)|copy",
+   "stale|invalidat"
+  ]
+ },
+ "r2_orders_route": {
+  "file": "r2_orders_route.diff",
+  "context": "Adds pagination + status filter to GET /orders and a GET /orders/:id route.",
+  "planted": [
+   {
+    "id": "sql_injection_status",
+    "desc": "req.query.status is interpolated into the SQL string -> SQL injection; should be a bound parameter.",
+    "match_any": [
+     [
+      "inject|sqli|interpolat|concatenat|parameteri|unsanitiz|unescaped|template (string|literal)"
+     ]
+    ],
+    "match_mode": "all_groups"
+   },
+   {
+    "id": "offset_off_by_one",
+    "desc": "offset = page * PAGE_SIZE with 1-based page skips the first 20 orders; should be (page - 1) * PAGE_SIZE.",
+    "match_any": [
+     [
+      "offset|page"
+     ],
+     [
+      "off.by.one|skip|1.based|one.based|page ?- ?1|first page|first 20|first twenty|zero.based|0.based"
+     ]
+    ],
+    "match_mode": "all_groups"
+   }
+  ],
+  "acceptable": [
+   "nan|parseint|negative|validat|page.{0,20}(<|less|below|zero|0)|bounds|clamp|max(imum)? page",
+   "try|catch|error handl|unhandled|reject",
+   "id.{0,40}(valid|integer|uuid|format)",
+   "index|performance|count|total"
+  ]
+ },
+ "r3_charge_retry": {
+  "file": "r3_charge_retry.diff",
+  "context": "Adds retries around the gateway charge call.",
+  "planted": [
+   {
+    "id": "retry_loop_no_break",
+    "desc": "Loop has no break/return on success: the gateway is charged on every iteration (up to 3 times) even after a successful attempt.",
+    "match_any": [
+     [
+      "break|never (exits|stops|breaks)|doesn.?t (stop|exit|break)|does not (stop|exit|break)|no (break|return)|continues (looping|retrying|to (call|charge|loop|retry))|even (after|on|when|if).{0,40}succe|(multiple|three|3|several|repeated(ly)?) times|(multiple|repeated|duplicate|double|triple) (charg|call)|keeps (retrying|charging|calling|looping)|all (three|3) attempts|every (iteration|attempt)"
+     ]
+    ],
+    "match_mode": "all_groups"
+   },
+   {
+    "id": "missing_await_audit",
+    "desc": "self.audit.record(...) is not awaited, so the coroutine never runs and the audit record is silently dropped.",
+    "match_any": [
+     [
+      "await|coroutine"
+     ],
+     [
+      "audit|record"
+     ]
+    ],
+    "match_mode": "all_groups"
+   }
+  ],
+  "acceptable": [
+   "ledger|compensat|rollback|atomic|partial|inconsisten|refund",
+   "jitter|backoff|sleep|delay",
+   "result.{0,20}none|none.{0,20}result|attributeerror",
+   "idempot",
+   "cancel|timeout"
+  ]
+ }
+}

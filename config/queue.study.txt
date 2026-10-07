@@ -1,0 +1,50 @@
+# Job list for scripts/queue_runner.sh, reconstructed from the study's queue files (2026-09-28/29).
+# Usage: cp config/queue.study.txt queue.txt; mkdir -p runs logs; GS_BASE=... scripts/queue_runner.sh
+# Paths: raw outputs go to runs/ (gitignored); the study wrote them to results/. Interpreter: python3 with requests+pytest.
+#
+# baseline (in the study these records came from an eval run the day before, 2026-09-28, with the same harness code
+# against the production Q8 profile; here the profile is muse-glimmer-30b in config/llama-swap.test.yaml)
+python3 scripts/harness_gs.py --models muse-glimmer-30b --kinds review,explore --out runs/baseline_std.jsonl > logs/baseline_std.log 2>&1
+python3 scripts/harness_gs.py --models muse-glimmer-30b --kinds review,explore --taskset tasks_hard --out runs/baseline_hard.jsonl > logs/baseline_hard.log 2>&1
+python3 scripts/harness_gs.py --models muse-glimmer-30b --kinds agentic --taskset tasks_hard --runs 2 --out runs/baseline_agentic.jsonl > logs/baseline_agentic.log 2>&1
+# phase 0 (run by hand in the study, before the queue existed)
+scripts/run_controls.sh > logs/controls.log 2>&1
+python3 scripts/bench_gs.py --models g-a1,g-a0,g-b,g-c,g-df3,g-df7,g-df15,g-q4dyn,g-q5 --reps 2 --ctx 32768 --out runs/screen.jsonl > logs/screen.log 2>&1
+# phase 1
+# (the study's phase-1 queue also listed the A1 passkey and the DF7/Q5 tool gates; the reboot cut them off and they ran in phase 2)
+python3 scripts/bench_gs.py --models g-q6 --reps 2 --ctx 32768 --out runs/screen.jsonl > logs/screen_q6.log 2>&1
+cd scripts && python3 passkey_gs.py g-df7 --depths 2048,4096,6144,8192,16384,32768,65536,116000 --reuse --out ../runs/passkey_g-df7.jsonl > ../logs/passkey_g-df7.log 2>&1
+# phase 2 (in the study this began after an unplanned host reboot; see README "Limitations")
+python3 scripts/bench_gs.py --models g-a1,g-df7 --reps 1 --ctx 8192 --out runs/postreboot_check.jsonl > logs/postreboot_check.log 2>&1
+# re-run of the 3 records lost to the reboot; not needed in an uninterrupted run:
+# cd scripts && python3 passkey_gs.py g-df7 --depths 116000 --seed 11 --out ../runs/passkey_g-df7.jsonl > ../logs/passkey_g-df7_116k.log 2>&1
+cd scripts && python3 passkey_gs.py g-a1 --depths 2048,4096,6144,8192,16384,32768,65536,116000 --reuse --out ../runs/passkey_g-a1.jsonl > ../logs/passkey_g-a1.log 2>&1
+python3 scripts/tplcheck_gs.py g-df7 > runs/tplcheck_g-df7.txt 2>&1; python3 scripts/toolsmoke_gs.py g-df7 --out runs/toolsmoke_g-df7.jsonl > runs/toolsmoke_g-df7.txt 2>&1
+python3 scripts/tplcheck_gs.py g-q5 > runs/tplcheck_g-q5.txt 2>&1; python3 scripts/toolsmoke_gs.py g-q5 --out runs/toolsmoke_g-q5.jsonl > runs/toolsmoke_g-q5.txt 2>&1
+cd scripts && python3 passkey_gs.py g-q5 --depths 2048,4096,6144,8192,16384,32768,65536,116000 --reuse --out ../runs/passkey_g-q5.jsonl > ../logs/passkey_g-q5.log 2>&1
+cd scripts && python3 greedy_gs.py g-a1 g-df7 g-df3 --out ../runs/greedy.jsonl > ../logs/greedy.log 2>&1
+python3 scripts/harness_gs.py --models g-df7 --kinds review,explore --out runs/q_g-df7_std_r1.jsonl > logs/q_g-df7_std_r1.log 2>&1
+python3 scripts/harness_gs.py --models g-df7 --kinds review,explore --taskset tasks_hard --out runs/q_g-df7_hard_r1.jsonl > logs/q_g-df7_hard_r1.log 2>&1
+python3 scripts/harness_gs.py --models g-df7 --kinds review,explore --out runs/q_g-df7_std_r2.jsonl > logs/q_g-df7_std_r2.log 2>&1
+python3 scripts/harness_gs.py --models g-df7 --kinds review,explore --taskset tasks_hard --out runs/q_g-df7_hard_r2.jsonl > logs/q_g-df7_hard_r2.log 2>&1
+python3 scripts/harness_gs.py --models g-q5 --kinds review,explore --out runs/q_g-q5_std_r1.jsonl > logs/q_g-q5_std_r1.log 2>&1
+python3 scripts/harness_gs.py --models g-q5 --kinds review,explore --taskset tasks_hard --out runs/q_g-q5_hard_r1.jsonl > logs/q_g-q5_hard_r1.log 2>&1
+python3 scripts/harness_gs.py --models g-q5 --kinds review,explore --out runs/q_g-q5_std_r2.jsonl > logs/q_g-q5_std_r2.log 2>&1
+python3 scripts/harness_gs.py --models g-q5 --kinds review,explore --taskset tasks_hard --out runs/q_g-q5_hard_r2.jsonl > logs/q_g-q5_hard_r2.log 2>&1
+# combination (only if GO_COMBO exists, i.e. DF7 and Q5 each passed their objective gates; create it by hand)
+test -f GO_COMBO && { curl -s "$GS_BASE/unload" >/dev/null; sleep 15; }
+test -f GO_COMBO && python3 scripts/bench_gs.py --models g-combo1,g-df7 --reps 2 --ctx 32768 --out runs/screen_combo.jsonl > logs/screen_combo.log 2>&1
+test -f GO_COMBO && python3 scripts/tplcheck_gs.py g-combo1 > runs/tplcheck_g-combo1.txt 2>&1; test -f GO_COMBO && python3 scripts/toolsmoke_gs.py g-combo1 --out runs/toolsmoke_g-combo1.jsonl > runs/toolsmoke_g-combo1.txt 2>&1
+test -f GO_COMBO && cd scripts && python3 passkey_gs.py g-combo1 --depths 2048,4096,6144,8192,16384,32768,65536,116000 --reuse --out ../runs/passkey_g-combo1.jsonl > ../logs/passkey_g-combo1.log 2>&1
+test -f GO_COMBO && python3 scripts/harness_gs.py --models g-combo1 --kinds review,explore --out runs/q_g-combo1_std_r1.jsonl > logs/q_g-combo1_std_r1.log 2>&1
+test -f GO_COMBO && python3 scripts/harness_gs.py --models g-combo1 --kinds review,explore --taskset tasks_hard --out runs/q_g-combo1_hard_r1.jsonl > logs/q_g-combo1_hard_r1.log 2>&1
+test -f GO_COMBO && python3 scripts/harness_gs.py --models g-combo1 --kinds review,explore --out runs/q_g-combo1_std_r2.jsonl > logs/q_g-combo1_std_r2.log 2>&1
+test -f GO_COMBO && python3 scripts/harness_gs.py --models g-combo1 --kinds review,explore --taskset tasks_hard --out runs/q_g-combo1_hard_r2.jsonl > logs/q_g-combo1_hard_r2.log 2>&1
+# greedy self-determinism control for A1 (is the non-speculative control itself bit-reproducible run to run?)
+cd scripts && python3 greedy_gs.py g-a1 --out ../runs/greedy_a1_repeat.jsonl > ../logs/greedy_a1_repeat.log 2>&1
+# full speed matrix, 5 alternating reps: 512 review/reason, 8K/16K/32K/64K review, warm16k, legacy 256 fixture
+python3 scripts/bench_gs.py --models g-a1,g-df7,g-q5,g-combo1 --reps 5 --ctx 8192,16384,32768,65536 --legacy --out runs/matrix.jsonl > logs/matrix.log 2>&1
+# step 8: hard agent tasks at the original 900 s cap, 2 runs each, best two candidates
+python3 scripts/harness_gs.py --models g-df7 --kinds agentic --taskset tasks_hard --runs 2 --out runs/agentic_g-df7.jsonl > logs/agentic_g-df7.log 2>&1
+python3 scripts/harness_gs.py --models g-combo1 --kinds agentic --taskset tasks_hard --runs 2 --out runs/agentic_g-combo1.jsonl > logs/agentic_g-combo1.log 2>&1
+STOP

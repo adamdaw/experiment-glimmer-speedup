@@ -1,0 +1,45 @@
+--- a/reports/service.py
++++ b/reports/service.py
+@@ -1,18 +1,39 @@
+ import logging
++import time
+ 
+ from .db import fetch_rows
+ 
+-log = logging.getLogger(__name__)
++logger = logging.getLogger(__name__)
++
++_CACHE_TTL = 300
++_cache = {}
+ 
+ 
+-def get_report(user_id, report_name, start, end):
+-    rows = fetch_rows(user_id, report_name, start, end)
+-    log.info("report %s rows=%d", report_name, len(rows))
+-    return summarize(rows)
++def get_report(user_id: int, report_name: str, start: str, end: str) -> dict:
++    """Return the summarized report for one user, cached for _CACHE_TTL seconds."""
++    key = (report_name, start, end)
++    hit = _cache.get(key)
++    if hit and time.time() - hit[0] < _CACHE_TTL:
++        logger.debug("cache hit %s", key)
++        return hit[1]
++    rows = fetch_rows(user_id, report_name, start, end)
++    logger.info("report %s rows=%d", report_name, len(rows))
++    result = summarize(rows)
++    _cache[key] = (time.time(), result)
++    return result
+ 
+ 
+-def summarize(rows):
+-    total = sum(r["amount"] for r in rows)
+-    return {"count": len(rows), "total": total, "avg": total / len(rows)}
++def summarize(rows: list[dict]) -> dict:
++    total = sum(r["amount"] for r in rows)
++    count = len(rows)
++    return {"count": count, "total": total, "avg": total / count if count else 0.0}
++
++
++def top_n(rows: list[dict], n: int = 5) -> list[dict]:
++    """Return the n rows with the largest amount, biggest first."""
++    return sorted(rows, key=lambda r: r["amount"])[:n]

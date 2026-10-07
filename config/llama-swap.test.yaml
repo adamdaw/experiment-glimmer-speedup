@@ -1,0 +1,34 @@
+# TEMPORARY llama-swap config for the Glimmer speed programme (2026-09-28). NOT production.
+# The study ran it on a loopback port next to an existing llama-swap; upstream ports from 5950. One model at a time
+# (default exclusive group). Edit the /path/to/... values for your machine, then e.g.:
+#   llama-swap -config config/llama-swap.test.yaml -listen 127.0.0.1:8080
+# PROD = the pre-study llama.cpp build (7d6f5d02b); NEW = llama.cpp 7ab4ee7ba. See README "Environment".
+healthCheckTimeout: 900
+logLevel: info
+startPort: 5950
+macros:
+  PROD: /path/to/llama.cpp-7d6f5d02b/bin/llama-server
+  NEW: /path/to/llama.cpp-7ab4ee7ba/bin/llama-server
+  BASE: --host 127.0.0.1 --port ${PORT} -lm none -ngl 999 -fa on --jinja --ctx-size 131072 --parallel 1 --cache-ram 0 --temp 1.0 --top-p 0.95 --top-k 64 --min-p 0.0
+  Q8: --model /path/to/models/Muse-Glimmer-30B-Q8_0.gguf
+  Q4DYN: --model /path/to/models/Muse-Glimmer-30B-KQuant-Dynamic-Q4_K_XL.gguf
+  Q5: --model /path/to/models/Muse-Glimmer-30B-UD-Q5_K_M.gguf
+  Q6: --model /path/to/models/Muse-Glimmer-30B-UD-Q6_K_XL.gguf
+  NGS: --spec-type ngram-simple --spec-ngram-simple-size-n 12 --spec-ngram-simple-size-m 16 --spec-draft-n-max 16
+  NGM: --spec-type ngram-mod --spec-ngram-mod-n-match 24 --spec-ngram-mod-n-min 8 --spec-ngram-mod-n-max 16
+  DF: --spec-type draft-dflash -md /path/to/models/dflash-Muse-Glimmer-30B-Q4_K_M.gguf -ngld 999 --spec-draft-p-min 0 -ctkd f16 -ctvd f16
+models:
+  g-a0:   {cmd: "${PROD} ${BASE} ${Q8}", ttl: 1800}
+  g-a1:   {cmd: "${NEW} ${BASE} ${Q8}", ttl: 1800}
+  g-b:    {cmd: "${NEW} ${BASE} ${Q8} ${NGS}", ttl: 1800}
+  g-c:    {cmd: "${NEW} ${BASE} ${Q8} ${NGM}", ttl: 1800}
+  g-df3:  {cmd: "${NEW} ${BASE} ${Q8} ${DF} --spec-draft-n-max 3", ttl: 1800}
+  g-df7:  {cmd: "${NEW} ${BASE} ${Q8} ${DF} --spec-draft-n-max 7", ttl: 1800}
+  g-df15: {cmd: "${NEW} ${BASE} ${Q8} ${DF} --spec-draft-n-max 15", ttl: 1800}
+  g-q4dyn: {cmd: "${NEW} ${BASE} ${Q4DYN}", ttl: 1800}
+  g-q5:   {cmd: "${NEW} ${BASE} ${Q5}", ttl: 1800}
+  g-q6:   {cmd: "${NEW} ${BASE} ${Q6}", ttl: 1800}
+  g-combo1: {cmd: "${NEW} ${BASE} ${Q5} ${DF} --spec-draft-n-max 7", ttl: 1800}
+  # Added for the public bundle: the baseline profile. In the study it was the production entry of the time, served
+  # by a separate llama-swap; its command is the same as g-a0 (prod build, Q8_0, no speculation) with ttl 900.
+  muse-glimmer-30b: {cmd: "${PROD} ${BASE} ${Q8}", ttl: 900}

@@ -1,0 +1,14 @@
+# raw run outputs (full transcripts), logs and queue state written by scripts/*
+runs/
+logs/
+queue.txt
+queue.done
+GO_COMBO
+# model weights and llama.cpp builds are never committed
+models/
+*.gguf
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/

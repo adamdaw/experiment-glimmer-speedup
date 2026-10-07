@@ -1,0 +1,41 @@
+--- a/src/routes/orders.js
++++ b/src/routes/orders.js
+@@ -1,10 +1,34 @@
+ const express = require('express');
+-const router = express.Router();
+ const db = require('../db');
++const { requireAuth } = require('../middleware/auth');
+ 
+-router.get('/orders', async (req, res) => {
+-  const rows = await db.query('SELECT * FROM orders WHERE customer_id = $1 ORDER BY created_at DESC', [req.user.id]);
+-  res.json(rows);
++const router = express.Router();
++const PAGE_SIZE = 20;
++
++// GET /orders?page=1&status=shipped   (page is 1-based; page=1 is the newest 20 orders)
++router.get('/orders', requireAuth, async (req, res) => {
++  const page = parseInt(req.query.page || '1', 10);
++  const offset = page * PAGE_SIZE;
++  let sql = 'SELECT id, status, total_cents, created_at FROM orders WHERE customer_id = $1';
++  const params = [req.user.id];
++  if (req.query.status) {
++    sql += ` AND status = '${req.query.status}'`;
++  }
++  sql += ' ORDER BY created_at DESC LIMIT $2 OFFSET $3';
++  params.push(PAGE_SIZE, offset);
++  const rows = await db.query(sql, params);
++  res.json({ page, orders: rows });
++});
++
++router.get('/orders/:id', requireAuth, async (req, res) => {
++  const rows = await db.query(
++    'SELECT id, status, total_cents, created_at FROM orders WHERE id = $1 AND customer_id = $2',
++    [req.params.id, req.user.id]
++  );
++  if (rows.length === 0) {
++    return res.status(404).json({ error: 'not found' });
++  }
++  res.json(rows[0]);
+ });
+ 
+ module.exports = router;
